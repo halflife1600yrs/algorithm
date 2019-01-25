@@ -4,5 +4,4 @@
 .out
 .vscode
 /*.cpp
-/*.c
-*.exes
+*.exe
