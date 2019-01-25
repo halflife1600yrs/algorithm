@@ -1,7 +1,8 @@
+*.exe
 .data
 .diary
-.in
-.out
+*.in
+*.out
 .vscode
 /*.cpp
-*.exe
+.exes/
