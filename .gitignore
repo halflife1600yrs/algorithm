@@ -1,2 +1,8 @@
 .data
 .diary
+.in
+.out
+.vscode
+/*.cpp
+/*.c
+*.exes
