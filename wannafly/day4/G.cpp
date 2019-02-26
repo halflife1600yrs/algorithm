@@ -15,7 +15,7 @@ int main()
     int n;
     for(int i = 4; i <= 1005; ++i)
     {
-        for(int j = 1; j <= i; j += 2)
+        for(int j = 1; j < i; j += 2)
             cas[i] = ((cas[j] * cas[i - 1 - j] % mode) * C[i - 1][j] % mode + cas[i]) % mode;
         if(i % 2 == 0)
             cas[i] = (cas[i] + cas[i - 1]) % mode;
