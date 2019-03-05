@@ -81,3 +81,8 @@ int main()
     }
     return 0;
 }
+
+/*=======================================
+added at 2019.Mar02 11:15:17	problem:xuzhouB
+https://nanti.jisuanke.com/t/A2001
+=======================================*/

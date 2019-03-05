@@ -2,11 +2,13 @@
 
 using namespace std;
 
-char origin[15];
+const int MAXN=
+struct Quee
+{
+    int data[]
+}
 
 int main()
 {
-    int n;
-    scanf("%s",origin);
-    
+
 }

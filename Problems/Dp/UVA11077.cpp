@@ -1,4 +1,3 @@
-// Hope this WILL be "ACCEPTED"
 #include <bits/stdc++.h>
 
 using namespace std;
