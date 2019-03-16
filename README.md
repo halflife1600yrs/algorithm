@@ -20,4 +20,22 @@
 - 3.5  
   ComentOJ218 小清新数论 数论模板题  
   P1439 最长公共子串 LIS模板题
-- 3.6
+- 3.7  
+  P2704 炮兵阵地 状压dp  
+  HDU1257 LIS
+- 3.9  
+  P2051 中国象棋 类似于状压dp，但只需要枚举每个状态的出现次数  
+  P3959 宝藏 状压dp+dfs
+- 3.10  
+  CSU2250 Baby Bites 水题  
+  CSU2251 Code Cleanups 水题,需要注意1 365一组数据  
+  CSU2258 Jumbled Strings 水题，需要特判的情况有点多，容易出错
+- 3.13  
+  CSU2253 Explosion Exploit 状压dp
+- 3.14  
+  CSU2249 Altruistic Amphibians 简单dp
+- 3.15  
+  NK393A 字符串 水题  
+  NK393B SHTMYCBDFTT 水题
+- 3.16  
+  NK393C 出题的诀窍 若干数剔除重复的求和，可以用前面的数‘覆盖’后面的数来达到去重的效果
