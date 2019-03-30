@@ -39,3 +39,26 @@
   NK393B SHTMYCBDFTT 水题
 - 3.16  
   NK393C 出题的诀窍 若干数剔除重复的求和，可以用前面的数‘覆盖’后面的数来达到去重的效果
+- 3.17  
+  CSU2270 Potato Sacks 简单dp  
+  CSU2272 Hedwig's Ladder 简单dp
+- 3.18  
+  CSU2275 Left-Right-Win 概率dp  
+- 3.19  
+  CSU2271 Moving Buildings 分情况讨论+dfs  
+- 3.20  
+  CSU2276 小的数论知识
+- 3.24  
+  CSU2280 Digits Are Not Just Characters 字符串水题  
+  CSU2281 Arithmetic Progressions 最长等差子串 dp  
+  CSU2282 Emergency Evacuation 模拟题
+- 3.25  
+  P3379 LCA模板题
+- 3.26  
+  CSU2286 What Goes Up Must Come Down 逆序对相关  
+- 3.28  
+  CSU2284 Eulerian Flight Tour 图论 连通块、最小生成树上连点
+- 3.30  
+  NK545D 筱玛的迷阵探险 dfs+01字典树
+  P3372 线段树模板
+  P3384 树链剖分模板
