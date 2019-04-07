@@ -59,6 +59,29 @@
 - 3.28  
   CSU2284 Eulerian Flight Tour 图论 连通块、最小生成树上连点
 - 3.30  
-  NK545D 筱玛的迷阵探险 dfs+01字典树
-  P3372 线段树模板
-  P3384 树链剖分模板
+  NK545D 筱玛的迷阵探险 dfs+01字典树  
+  P3372 线段树模板  
+  P3384 树链剖分模板  
+- 3.31  
+  CSU2291 Rearranging a Sequence 水题  
+  CSU2292 Quality of Check Digits 水题  
+  CSU2297 Placing Medals on a Binary Tree 二进制相关
+- 4.2  
+  CSU2299 Skinny Polygon 扩展欧几里得
+- 4.3  
+  HDU4725 The Shortest Path in Nya Graph 优化建图后跑最短路  
+  JSK1254 Skiing 拓扑排序求DAG最长路径
+- 4.4  
+  P1249 Exia的路线 最短路+DAG最长路径
+- 4.5  
+  NK548A Tachibana Kanade Loves School 水题  
+  NK548B Tachibana Kanade Loves Probability 水题
+- 4.6  
+  NK548C Tachibana Kanade Loves Review 最小生成树  
+  POJ3259 Wormholes 最短路判负环模板题
+- 4.7  
+  cf102167B DrunkHamster 水题  
+  cf102167C Store 线段树+二分  
+  POJ2253 Heavy Transportation 最短路变式  
+  POJ1797 Frogger 最短路变式  
+  POJSilver Cow Party 两次最短路
