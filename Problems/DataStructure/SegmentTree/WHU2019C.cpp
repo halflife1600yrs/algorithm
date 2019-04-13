@@ -9,16 +9,15 @@ struct SgTree
     struct Node
     {
         int l,r,v;
-        Node() {}
-        Node(int _l,int _r,int _v):l(_l),r(_r),v(_v) {}
+        void set(int _l,int _r,int _v) { l=_l,r=_r,v=_v; }
     } nodes[MAXN<<2];
     void build(int start,int end,int pos=1)
     {
-        nodes[pos]=Node(start,end,INF);
+        nodes[pos].set(start,end,INF);
         if(end-start==1) return;
         int mid=(start+end)>>1;
         build(start,mid,pos<<1);
-        build(mid,end,(pos<<1)+1);        
+        build(mid,end,(pos<<1)+1);
     }
     void set(int x,int v,int pos=1)
     {
@@ -32,7 +31,7 @@ struct SgTree
     {
         int l=nodes[pos].l,r=nodes[pos].r;
         if(start<=l&&r<=end) return nodes[pos].v;
-        else if(end<=l||r<=start) return INF;
+        if(end<=l||r<=start) return INF;
         return min(query(start,end,pos<<1),query(start,end,(pos<<1)+1));
     }
 } T;

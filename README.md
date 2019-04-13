@@ -84,4 +84,13 @@
   cf102167C Store 线段树+二分  
   POJ2253 Heavy Transportation 最短路变式  
   POJ1797 Frogger 最短路变式  
-  POJSilver Cow Party 两次最短路
+  POJ3268 Silver Cow Party 图的转置+两次最短路
+- 4.8  
+  POJ1860 Currency Exchange 最短路
+- 4.9  
+  POJ3660 Cow Contest floyed最小传递闭包  
+  leetcode330 贪心(嘴上ac)  
+  POJ1511 Invitation Cards 图转置(向前星)+两次最短路
+- 4.10  
+  POJ3268 Candies 差分约束系统  
+  POJ2502 Subway 最短路-精度问题一直没过待重构

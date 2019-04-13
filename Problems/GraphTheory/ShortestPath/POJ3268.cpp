@@ -36,8 +36,6 @@ struct Graph
             for(int to=1,newd;to<=v;++to)
             {
                 if(vis[to]||to==fr||edges[fr][to]<0) continue;
-                // debug2(fr,to);
-                // debug1(edges[fr][to]);
                 newd=pdis[fr]+edges[fr][to];
                 if(newd<pdis[to]) pdis[to]=newd,q.push(pii(to,newd));
             }
@@ -58,10 +56,14 @@ int main()
         for(int j=i+1;j<=v;++j) swap(G.edges[i][j],G.edges[j][i]);
     G.Dij(center,dis[1]);
     int maxi=0;
-    // disp(dis[0],1,v+1)
-    // disp(dis[1],1,v+1)
     for(int i=1;i<=v;++i)
         if(i!=center&&dis[0][i]+dis[1][i]>maxi) maxi=dis[0][i]+dis[1][i];
     printf("%d\n",maxi);
     return 0;
 }
+
+/*=======================================
+added at 2019.Apr09 21:18:14	problem:POJ3268
+汇点的来最短路+去最短路
+对图进行转置
+=======================================*/
