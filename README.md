@@ -94,3 +94,22 @@
 - 4.10  
   POJ3268 Candies 差分约束系统  
   POJ2502 Subway 最短路-精度问题一直没过待重构
+- 4.11  
+  网址：http://2050.acmclub.cn/contests/contest_show.php?cid=2  
+  team3155 q8paGT  
+  2050WarmingUpA 赶火车 期望dp  
+  2050WarmingUpC 美丽度 求和计算贡献  
+  2050WarmingUpD 定理证明 图论  
+- 4.12  
+  NK549A 小a的签到题 Fibonacci数的一个简单性质  
+  NK549C 小a买彩票 简单dp  
+  NK549D 小a的位运算 简单模拟  
+  NK549F 小a的最短路 LCA  
+  NK549I 小a取石子 Nim博弈SG函数简单应用  
+- 4.13  
+  2050F 冰水挑战 dp  
+  2050C 分宿舍 模拟？
+- 4.14  
+  ZOJ4090 Thanks,TuSimple! 贪心  
+  ZOJ4091 Even Number Theory 大数，求一个大区间所有数的lowbit  
+  ZOJ4094 Potion 求后缀和，水题 
