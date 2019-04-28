@@ -42,8 +42,8 @@ struct Graph
 
 int main()
 {
-    freopen(".in", "r", stdin);
-    freopen(".out", "w", stdout);
+    // freopen(".in", "r", stdin);
+    // freopen(".out", "w", stdout);
     while(~scanf("%d %d", &v, &e))
     {
         g.init();

@@ -1,7 +1,7 @@
 ## 刷题记录
 - 2.25  
   ComentOJ256 咆咆咆哮 dp  
-  ComentOJ272 最小边覆盖 简单图论
+  ComentOJ272 最小边覆盖 简单图论  
 - 2.26  
   ComentOJ280 两条路径 简单图论题  
   P1879 状压dp模板题
@@ -110,6 +110,24 @@
   2050F 冰水挑战 dp  
   2050C 分宿舍 模拟？
 - 4.14  
-  ZOJ4090 Thanks,TuSimple! 贪心  
+  ZOJ4090 Thanks,TuSimple! 将一种特殊化的二分图匹配(边没有交叉)转换为贪心性质的活动安排模型  
   ZOJ4091 Even Number Theory 大数，求一个大区间所有数的lowbit  
-  ZOJ4094 Potion 求后缀和，水题 
+  ZOJ4094 Potion 求后缀和，水题  
+- 4.16  
+  POJ1251 最小生成树
+- 4.18  
+  HDU6497 骑行 模拟？只要考虑到自行车一直加速减速都不能到达限制的情况就行了
+- 4.19  
+  HDU6512 Triangle 数学结论 当n条边不能组成三角形时，最长边一定大于等于Fn，F为斐波那契数，按2的k次方进行分类也可以得到类似的结论  
+  HDU6518 Clumsy Keke 模拟题？对正方体内每个格子判断一次就可以了
+- 4.20  
+  HDU6494 球赛 对当前分数进行dp，同时将超过10的分数转移为小于等于10的分数
+- 4.21  
+  CSU2309 Building a Stair 水题  
+  CSU2312 Email Destruction 水题  
+  CSU2314 Generalized German Quotation 水题  
+  CSU2318 LED-led Paths 拓扑序出边顺序染色
+- 4.26  
+  ComentOJ1528 水题  
+  ComentOJ1529 最优化,需要分情况讨论
+  ComentOJ1530 期望

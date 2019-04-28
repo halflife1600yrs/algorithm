@@ -37,7 +37,7 @@ struct Graph
             mini = INF, to = -1;
             for(int i = 1; i <= v; i++)
                 if(!chosen[i] && dis[i] < mini) mini = dis[i], to = i;
-            if(to == -1) return -1;
+            if(to == -1) return -1; // 处理不连通的情况
             chosen[to] = 1, cur = to, ans += mini, lenz++;
         }
         return ans;
