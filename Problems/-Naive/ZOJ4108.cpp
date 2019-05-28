@@ -23,7 +23,6 @@ int main()
     while(T--)
     {
         int a=read(),b=read();
-        // debug2(a,b);
         if(a==0)
         {
             if(b==0) printf("0\n");

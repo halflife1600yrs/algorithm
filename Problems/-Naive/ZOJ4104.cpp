@@ -1,15 +1,5 @@
 #include <bits/stdc++.h>
 
-#define DEBUG
-#define debug1(x) std::cout << #x " = " << (x) << std::endl
-#define debug2(x, y) std::cout << #x " = " << (x) << " ," #y " = " << (y) << std::endl
-#define disp(arry, fr, to) \
-    { \
-        std::cout << #arry " : "; \
-        for(int _i = fr; _i < to; _i++) std::cout << arry[_i] << " "; \
-        std::cout << std::endl; \
-    }
-
 using namespace std;
 
 typedef pair<int,int> pii;
@@ -35,21 +25,17 @@ int main()
         {
             if(num[i].second<num[i+1].second)
             {
-                // debug1(i);
                 ans+=1;
                 for(int j=i+2;j<n;++j)
                 {
                     if(num[j].first==num[i+1].first)
                     {
-                        // debug1(j);
                         if(num[j].second<num[i].second) continue;
                         else ++ans;
                     }
                     else
                     {
-                        // debug2(j,ans);
                         ans+=n-j;
-                        // debug1(ans);
                         break;
                     }
                 }
@@ -74,4 +60,5 @@ added at 2019.Apr27 14:35:41	problem:E
 9 9 9 9 8
 5
 9 8 9 9 9
+事实上只要判断和原序列有几个是一样的就行了
 =======================================*/

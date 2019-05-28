@@ -2,25 +2,26 @@
 
 using namespace std;
 
-const int MAXV = 10005, MAXE = 200010;
-const int INF = 0x7f7f7f7f;
+const int MAXV = 205, MAXE = 3000, INF = 0x7f7f7f7f;
 int v, e;
-struct G
+struct Graph
 {
-    int head[MAXV];
-    int top;
-    int depth[MAXV];
     struct Edge
     {
         int to, last, l;
-        void set(int _to, int _last, int _l) { to = _to, l = _l, last = _last; }
-    } edges[MAXE];
+        void set(int _to, int _last, int _l) { to = _to, last = _last, l = _l; }
+    } edges[MAXE << 1];
+    
+    int top, head[MAXV], depth[MAXV];
+
     void init() { top = 0, memset(head, -1, sizeof(head)); }
+
     void add(int fr, int to, int l)
     {
         edges[top].set(to, head[fr], l);
         head[fr] = top++;
     }
+
     bool bfs(int start, int end)
     {
         queue<int> q;
@@ -67,46 +68,24 @@ struct G
 
 int main()
 {
+    // freopen(".in", "r", stdin);
+    // freopen(".out", "w", stdout);
     int start,end;
-    while(~scanf("%d %d %d %d", &v, &e, &start, &end))
+    scanf("%d %d %d %d",&v,&e,&start,&end);
+    G.init();
+    for(int i=1;i<=v;++i)
     {
-        int a, b, c;
-        G.init();
-        for(int i = 0; i < e; i++)
-        {
-            scanf("%d %d %d", &a, &b, &c);
-            G.add(a, b, c);
-            G.add(b, a, 0);
-        }
-        printf("%d\n", G.dinic(start,end));
+        G.add(i,i+v,1);
+        G.add(i+v,i,0);
     }
+    for(int i=0,fr,to;i<e;++i)
+    {
+        scanf("%d %d",&fr,&to);
+        G.add(fr+v,to,INF);
+        G.add(to,fr+v,0);
+        G.add(to+v,fr,INF);
+        G.add(fr,to+v,0);
+    }
+    printf("%d\n",G.dinic(start+v,end));
     return 0;
 }
-
-/*=======================================
-addred at 2018年11月04日 20:30:07	problem:HDU3549
-网络流模板题
-=======================================*/
-/*=======================================
-added at 2018年11月29日 20:35:51	problem:P3376
-t了一个下午然后转而用这个模板去做洛谷模板题的时候发现是因为MAXE没有*2导致的错误
-血的教训
-6 9 1 6
-4 2 4
-4 3 4
-4 6 3
-3 1 1
-1 4 4
-4 1 3
-3 6 5
-5 6 6
-6 3 3
-4 5 4 3
-4 2 30
-4 3 20
-2 3 20
-2 1 30
-1 3 40
-
--- 4 50
-=======================================*/

@@ -1,15 +1,5 @@
 #include <bits/stdc++.h>
 
-#define DEBUG
-#define debug1(x) std::cout << #x " = " << (x) << std::endl
-#define debug2(x, y) std::cout << #x " = " << (x) << " ," #y " = " << (y) << std::endl
-#define disp(arry, fr, to) \
-    { \
-        std::cout << #arry " : "; \
-        for(int _i = fr; _i < to; _i++) std::cout << arry[_i] << " "; \
-        std::cout << std::endl; \
-    }
-
 using namespace std;
 
 const int MAXV=1e6+5,MAXE=1e6+5;
@@ -59,7 +49,6 @@ struct TOPSORT : Graph
 
     void add(int fr, int to) // override
     { // init里面没有in的初始化,多组样例不要忘记加
-        // debug2(fr,to);
         edges[top].set(to, head[fr]);
         ++in[to];
         head[fr] = top++;
@@ -101,7 +90,6 @@ struct BFS : Graph
             for(int i=head[fr];~i;i=edges[i].last)
             {
                 to=edges[i].to;
-                // debug2(fr,to);
                 if(vis[to]) continue;
                 G2.add(fr,to);
                 vis[to]=1;
@@ -131,7 +119,6 @@ int read()
         else if(get) break;
         else continue;
     }
-    // debug1(ans);
     return ans;
 }
 
@@ -189,4 +176,5 @@ added at 2019.Apr27 16:34:12	problem:J
 5 4
 3 6
 4 2
+带优先的bfs+topsort
 =======================================*/

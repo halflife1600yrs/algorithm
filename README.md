@@ -129,5 +129,59 @@
   CSU2318 LED-led Paths 拓扑序出边顺序染色
 - 4.26  
   ComentOJ1528 水题  
-  ComentOJ1529 最优化,需要分情况讨论
+  ComentOJ1529 最优化,需要分情况讨论  
   ComentOJ1530 期望
+- 4.27
+  ZOJ4104 Sequence in the Pocket 类似于逆序对
+  ZOJ4108 Fibonacci in the Pocket 斐波那契奇偶性
+  ZOJ4109 Welcome Party 带优先的bfs+拓扑排序
+  ZOJ4106 Lucky 7 in the Pocket 水题
+- 4.28
+  NK20181 部落划分 生成树
+- 5.1  
+  两题水题
+- 5.2  
+  NK19964 聪明的猴子 生成树上最长边
+- 5.3
+  牛客练习赛 3道签到题
+- 5.5  
+  P3376 网络流模板题  
+  POJ3281 Dining 网络流建模
+- 5.6  
+  P3381 费用流模板题  
+  P1345 奶牛的电信 最小割点数
+- 5.7  
+  HDU1269 城堡迷宫 强连通分量  
+  POJ2186 popular cow 强连通分量 不知道为什么POJ过了luogu没过  
+- 5.8  
+  HDU2732 Leapin' Lizards 网络流拆点  
+  HDU3338 Kakuro Extension 网络流
+- 5.10  
+  NK880B 克洛涅的多项式 简单数学，需要快读
+- 5.11  
+  湘潭热身赛
+- 5.12  
+  湘潭邀请赛 出4题
+- 5.13  
+  NK880C 克洛涅的照片 反转行列
+- 5.15  
+  NK15560 zzq的离散数学教室（二） 偏序集最大独立集  
+  NK15828 勤奋的杨老师（二） 最大权闭合子图
+- 5.16  
+  NK16408 托米去购物 网络流
+- 5.19  
+  西安邀请赛 出4题
+- 5.23  
+  NK19931 危桥 两对原点汇点的网络流，一个原点的流量跑到对应的汇点是不能算的。这里要反转一对原点汇点跑两次网络流。思想还是不能完全理解，以后要再补一次。
+- 5.24  
+  NK900A 模拟题，注意int取绝对值会爆int  
+  NK900B 数据结构  
+  NK900C 类hanoi塔问题
+- 5.26  
+  P3387 tarjan缩点
+- 5.27  
+  NK132C bitset优化dp，不得不说bitsetNB  
+  JSK39271 Miku and Generals dfs+dp，题目没读好
+- 5.28  
+  NK847E Pyramid 用胜负图来考虑十分直观。之前没补的博弈论题目，少考虑了两种情况。
+  NK987F Magic Slab 最大权闭合子图
