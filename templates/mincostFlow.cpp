@@ -27,7 +27,7 @@ struct G
     bool vis[MAXV];
     bool spfa()
     {
-        memset(dis, 0x7f, sizeof(dis));
+        memset(dis, 0x7f, sizeof(dis)); // 最大费用的时候下面要改>号,这里要用0x80初始化为负值
         memset(vis, 0, sizeof(vis));
         memset(minf, 0x7f, sizeof(minf));
         queue<int> q;
@@ -51,7 +51,7 @@ struct G
                 }
             }
         }
-        return dis[end] != INF;
+        return dis[end] != INF; // 这里也可以用pree[end]!=-1来判断,但是要初始化pree
     }
     void dfs()
     {
