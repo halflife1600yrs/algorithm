@@ -10,11 +10,13 @@ struct G
     int head[MAXV];
     int top;
     struct Edge
-    {
+    { // l为长度/费用,c为费用
         int to, last, l, c;
         void set(int _to, int _last, int _l, int _c) { to = _to, last = _last, l = _l, c = _c; }
     } edges[MAXE << 1];
+
     void init() { top = 0, memset(head, -1, sizeof(head)); }
+
     void add(int fr, int to, int l, int c)
     {
         edges[top].set(to, head[fr], l, c);
@@ -22,11 +24,13 @@ struct G
         edges[top].set(fr, head[to], -l, 0);
         head[to] = top++;
     }
+
     int start, end;
     int dis[MAXV], prev[MAXV], pree[MAXV], minf[MAXV];
     bool vis[MAXV];
+
     bool spfa()
-    {
+    {                                   // 这里的初始化不能删因为多次调用
         memset(dis, 0x7f, sizeof(dis)); // 最大费用的时候下面要改>号,这里要用0x80初始化为负值
         memset(vis, 0, sizeof(vis));
         memset(minf, 0x7f, sizeof(minf));
@@ -34,30 +38,31 @@ struct G
         q.push(start);
         dis[start] = 0, vis[start] = 1;
         int fr, to;
-        while(!q.empty())
+        while (!q.empty())
         {
             fr = q.front(), q.pop();
             vis[fr] = 0;
-            for(int i = head[fr]; ~i; i = edges[i].last)
+            for (int i = head[fr]; ~i; i = edges[i].last)
             {
                 to = edges[i].to;
-                if(edges[i].c > 0 && dis[fr] + edges[i].l < dis[to])
+                if (edges[i].c > 0 && dis[fr] + edges[i].l < dis[to])
                 {
                     dis[to] = dis[fr] + edges[i].l;
                     minf[to] = min(minf[fr], edges[i].c);
                     prev[to] = fr;
                     pree[to] = i;
-                    if(!vis[to]) q.push(to), vis[to] = 1;
+                    if (!vis[to])
+                        q.push(to), vis[to] = 1;
                 }
             }
         }
         return dis[end] != INF; // 这里也可以用pree[end]!=-1来判断,但是要初始化pree
     }
+
     void dfs()
     {
-        int cur = end;
-        int i, tmp = minf[end];
-        while(cur != start)
+        int cur = end, i, tmp = minf[end];
+        while (cur != start)
         {
             i = pree[cur];
             edges[i].c -= tmp;
@@ -65,12 +70,14 @@ struct G
             cur = prev[cur];
         }
         ans += tmp;
-        cost += dis[end] * tmp;
+        cost += dis[end] * tmp; // 一般来说是dis[en]
     }
+
     void mcf()
     {
         ans = cost = 0;
-        while(spfa()) dfs();
+        while (spfa())
+            dfs();
     }
 } G;
 
@@ -78,7 +85,7 @@ int main()
 {
     scanf("%d %d %d %d", &v, &e, &G.start, &G.end);
     G.init();
-    for(int i = 0, fr, to, c, l; i < e; ++i)
+    for (int i = 0, fr, to, c, l; i < e; ++i)
     {
         scanf("%d %d %d %d", &fr, &to, &c, &l);
         G.add(fr, to, l, c);

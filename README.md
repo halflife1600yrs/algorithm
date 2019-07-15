@@ -197,7 +197,7 @@
 - 7.5  
   NK21652 牛牛数括号 简单dp  
   NK21303 删括号 三维dp,读错题目了  
-  NK946A 筱玛爱地理 水题  
+  NK946A 筱玛爱地理 水题
   NK21688 dp题待补,可能思路错了  
 - 7.6  
   NK946D 筱玛爱线段树 刚开始想用两个线段树但是两个差分就可以,复杂度降一个log  
@@ -209,3 +209,18 @@
   P1004 三维dp
   P1006 和1004相似,三维dp
   P4066 上面两题的加强,要用费用流
+- 7.12
+  GYM102028D Keiichi Tsuchiya the Drift King 简单计算几何
+  GYM102028F Honeycomb bfs,输入复杂
+  GYM102028E Resistors in Parallel 质数容斥,高精度,第一道用java过的题
+- 7.13
+- HDU2082 最简单的生成函数应用
+  NK993A Card Stacking 约瑟夫环
+  NK993J Sightseeing Cows 最大比率环
+- 7.14
+  NK993I Multiplayer Moo/新游戏 dfs
+  NK14521 14572 15136 三道bfs题,今天下午状态不佳刷一下水题
+- 7.15
+  NK15158 小H和游戏 树上用父节点保存子节点的信息
+  NK16695 数的划分 简单,早就会的dp
+  P3806 点分治 模板题

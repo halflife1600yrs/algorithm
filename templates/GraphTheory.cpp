@@ -312,7 +312,7 @@ struct DINIC : Graph
         for(int i = head[fr], add; ~i; i = edges[i].last)
         { // 一次dfs多次增广,tf记录当前已经增广流量
             to = edges[i].to;
-            if(depth[to] == d && edges[i].l >= 0)
+            if(depth[to] == d && edges[i].l > 0)
             {
                 add = dfs(to, end, min(addflow - tf, edges[i].l));
                 edges[i].l -= add, edges[i ^ 1].l += add, tf += add;
