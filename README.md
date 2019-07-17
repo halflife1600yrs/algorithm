@@ -131,10 +131,10 @@
   ComentOJ1528 水题  
   ComentOJ1529 最优化,需要分情况讨论  
   ComentOJ1530 期望
-- 4.27
-  ZOJ4104 Sequence in the Pocket 类似于逆序对
-  ZOJ4108 Fibonacci in the Pocket 斐波那契奇偶性
-  ZOJ4109 Welcome Party 带优先的bfs+拓扑排序
+- 4.27  
+  ZOJ4104 Sequence in the Pocket 类似于逆序对  
+  ZOJ4108 Fibonacci in the Pocket 斐波那契奇偶性  
+  ZOJ4109 Welcome Party 带优先的bfs+拓扑排序  
   ZOJ4106 Lucky 7 in the Pocket 水题
 - 4.28
   NK20181 部落划分 生成树
@@ -205,22 +205,22 @@
   NK984F 随机数 数位dp,情况比较难分清楚  
   NK948L Catch That Cow 没有意识到bfs的下界  
   NK21085 贪心题不知道为什么只有30分
-- 7.8
-  P1004 三维dp
-  P1006 和1004相似,三维dp
+- 7.8  
+  P1004 三维dp  
+  P1006 和1004相似,三维dp  
   P4066 上面两题的加强,要用费用流
-- 7.12
-  GYM102028D Keiichi Tsuchiya the Drift King 简单计算几何
-  GYM102028F Honeycomb bfs,输入复杂
+- 7.12  
+  GYM102028D Keiichi Tsuchiya the Drift King 简单计算几何  
+  GYM102028F Honeycomb bfs,输入复杂  
   GYM102028E Resistors in Parallel 质数容斥,高精度,第一道用java过的题
-- 7.13
-- HDU2082 最简单的生成函数应用
-  NK993A Card Stacking 约瑟夫环
+- 7.13  
+- HDU2082 最简单的生成函数应用  
+  NK993A Card Stacking 约瑟夫环  
   NK993J Sightseeing Cows 最大比率环
-- 7.14
-  NK993I Multiplayer Moo/新游戏 dfs
+- 7.14  
+  NK993I Multiplayer Moo/新游戏 dfs  
   NK14521 14572 15136 三道bfs题,今天下午状态不佳刷一下水题
-- 7.15
-  NK15158 小H和游戏 树上用父节点保存子节点的信息
-  NK16695 数的划分 简单,早就会的dp
+- 7.15  
+  NK15158 小H和游戏 树上用父节点保存子节点的信息  
+  NK16695 数的划分 简单,早就会的dp  
   P3806 点分治 模板题
