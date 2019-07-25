@@ -32,7 +32,7 @@ struct Graph
 typedef pair<int, int> pii;
 struct cmp
 {
-    bool operator()(const pii& a, const pii& b) { return a.second < b.second; }
+    bool operator()(const pii& a, const pii& b) { return a.second > b.second; }
 };
 
 struct DIJKSTRA : Graph

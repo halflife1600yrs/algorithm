@@ -224,3 +224,7 @@
   NK15158 小H和游戏 树上用父节点保存子节点的信息  
   NK16695 数的划分 简单,早就会的dp  
   P3806 点分治 模板题
+- 7.23  
+  NK882D Kth Minimum Clique bfs  
+  NK882F Partition problem dfs  
+  NK882A Eddy Walker 概率
