@@ -2,6 +2,7 @@
 
 using namespace std;
 
+typedef int Type;
 const int MAXV = 1e5 + 5, MAXE = 5e5 + 5;
 const int INF = 0x7f7f7f7f;
 // INF的值根据需要增大

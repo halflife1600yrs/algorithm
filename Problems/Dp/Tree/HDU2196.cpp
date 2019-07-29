@@ -35,10 +35,6 @@ namespace T
                 dp[fa][1]=dp[fa][0];
                 dp[fa][0]=l1;
                 maxi[fa]=to;
-                if(dp[to][1]&&l2>dp[fa][1]&&maxi[fa]!=to)
-                { // 只有最大值可更新的时候次大值才可能更新
-                    dp[fa][1]=l2;
-                }
             } else if(l1>dp[fa][1])
             { // 更新次大值
                 dp[fa][1]=l1;

@@ -228,3 +228,14 @@
   NK882D Kth Minimum Clique bfs  
   NK882F Partition problem dfs  
   NK882A Eddy Walker 概率
+- 7.26
+  P2476 着色方案 状压dp
+  P1453 城市环路 基环树
+  P2607 骑士 基环树
+- 7.28
+  P3803 NTT模板题
+  P4238 多项式逆元题
+- 7.29
+  P4512 多项式取模模板题
+  HDU6608 Fansblog 威尔逊定理
+  HDU6611 K Subsequence 网络流
