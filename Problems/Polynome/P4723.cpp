@@ -2,7 +2,7 @@
 
 using namespace std;
 
-const int MODE = 1e9 + 7;
+const int MODE = 998244353;
 typedef long long ll;
 typedef vector<int> poly;
 typedef vector<int>::iterator vit;
@@ -21,7 +21,7 @@ ll quick_pow(int x, int up)
 
 namespace NTT
 {
-const int MAXL = 262150, g = 5; // 元根
+const int MAXL = 262150, g = 3; // 元根
 int lenz, resort[MAXL]; // lenz是积多项式的次数界,也就是大于等于n+m+1的最小2的幂
 
 void init(int x)
@@ -65,7 +65,7 @@ void work(const poly& p1, const poly& p2, poly& p3, size_t n = MAXL)
         if(resort[i] < l2) v2[i] = p2[resort[i]];
     }
     transform(v1, 1), transform(v2, 1);
-    p3.resize(lenz); // 这里要用resize不然p3不能等于p1,p2
+    p3 = vi(lenz, 0);
     for(int i = 0; i < lenz; ++i)
         p3[i] = v1[resort[i]] * 1ll * v2[resort[i]] % MODE;
     transform(p3, -1);
@@ -98,9 +98,9 @@ void polyinv(const poly& p, poly& inv)
 
 void polymod(const poly& f, const poly& mod, poly& r)
 { // 如何想要获取一个q的话再传一个进来就行了
-    if(mod.size() > f.size())
+    if(mod.size()>f.size())
     {
-        r = f;
+        r=f;
         return;
     }
     poly q, rev;
@@ -120,7 +120,7 @@ void polymod(const poly& f, const poly& mod, poly& r)
     }
 }
 
-void polypow(const poly& f, const poly& mod, poly& x, ll idx)
+void polypow(const poly& f, const poly& mod, poly& x, int idx)
 {
     poly ans = poly(1, 1), base = f;
     while(idx)
@@ -132,7 +132,7 @@ void polypow(const poly& f, const poly& mod, poly& x, ll idx)
     x.swap(ans);
 }
 
-int linear_recurrence(const poly& f, const poly& a, ll n)
+int linear_recurrence(const poly& f, const poly& a, int n)
 {
     poly g, h(1, 0);
     for(int i = f.size() - 1; i >= 0; --i) g.push_back(-f[i]);
@@ -144,33 +144,35 @@ int linear_recurrence(const poly& f, const poly& a, ll n)
     return ans;
 }
 
-poly f,a;
+poly f, a;
 
 int main()
 {
-    int T, k;
-    ll n;
-    scanf("%d", &T);
-    while(T--)
+    int n, k;
+    scanf("%d %d", &n, &k);
+    f.reserve(1.5 * k);
+    a.reserve(1.5 * k);
+    for(int i = 0, x; i < k; ++i)
     {
-        scanf("%d %lld", &k, &n);
-        if(n==-1)
-        {
-            printf("%lld\n",2ll*quick_pow(k+1,MODE-2)%MODE);
-        } else
-        {
-            int inv=quick_pow(k,MODE-2);
-            f=poly(k,inv);
-            a=poly(k,0);
-            for(int i=0;i<k;++i)
-            {
-                for(int j=1;j<=k;++j)
-                {
-                    a[i+j]=(a[i+j]+(ll)a[i]*inv)%MODE;
-                }
-            }
-            printf("%d\n",linear_recurrence(f,a,n));
-        }
+        scanf("%d", &x);
+        x%=MODE;
+        if(x<0) x+=MODE;
+        f.push_back(x);
     }
+    for(int i = 0, x; i < k; ++i)
+    {
+        scanf("%d", &x);
+        x%=MODE;
+        if(x<0) x+=MODE;
+        a.push_back(x);
+    }
+    printf("%d", linear_recurrence(f, a, n));
     return 0;
 }
+
+/*==================================================================
+added at 2019-07-30 11:12:12	P4723
+3 2
+1 1
+0 1
+==================================================================*/

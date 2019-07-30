@@ -2,7 +2,7 @@
 
 using namespace std;
 
-const int MODE = 998244353; // 元根
+const int MODE = 998244353;
 typedef long long ll;
 typedef vector<int> poly;
 typedef vector<int>::iterator vit;
@@ -21,7 +21,7 @@ ll quick_pow(int x, int up)
 
 namespace NTT
 {
-const int MAXL = 262150, g = 3;
+const int MAXL = 262150, g = 3; // 元根
 int lenz, resort[MAXL]; // lenz是积多项式的次数界,也就是大于等于n+m+1的最小2的幂
 
 void init(int x)
@@ -78,10 +78,10 @@ void work(const poly& p1, const poly& p2, poly& p3, size_t n = MAXL)
 
 poly f, g, q, r;
 
-void polyinv(const vector<int>& p, vector<int>& r)
+void polyinv(const poly& p, poly& r)
 {
     int index = p.size(), l = 1;
-    vector<int> inv1(1, quick_pow(p[0], MODE - 2)), inv2;
+    poly inv1(1, quick_pow(p[0], MODE - 2)), inv2;
     while(l < index)
     {
         l <<= 1;
@@ -100,18 +100,19 @@ void polyinv(const vector<int>& p, vector<int>& r)
 
 void polymod(const poly& f, const poly& g, poly& q, poly& r)
 {
-    poly fr, gr;
-    for(int i = f.size() - 1; i >= 0; --i) fr.push_back(f[i]);
-    for(int i = g.size() - 1; i >= 0; --i) gr.push_back(g[i]);
-    gr.resize(f.size()-g.size()+1); // 这步不能漏
-    polyinv(gr, q);
-    NTT::work(fr, q, q, f.size() - g.size() + 1);
+    poly rev;
+    for(int i = g.size() - 1; i >= 0; --i) rev.push_back(g[i]);
+    rev.resize(f.size() - g.size() + 1); // 这步不能漏
+    polyinv(rev, q);
+    rev.resize(0);
+    for(int i = f.size() - 1; i >= 0; --i) rev.push_back(f[i]);
+    NTT::work(rev, q, q, f.size() - g.size() + 1);
     reverse(q.begin(), q.end());
-    NTT::work(g, q, r);
-    for(int i = 0; i < r.size(); ++i)
+    NTT::work(g, q, rev);
+    r.resize(g.size() - 1);
+    for(int i = 0; i < rev.size(); ++i)
     {
-        r[i] *= -1;
-        if(i < f.size()) (r[i] += f[i]) %= MODE;
+        r[i] = ((i < f.size() ? f[i] : 0) - rev[i]) % MODE;
         if(r[i] < 0) r[i] += MODE;
     }
 }
@@ -122,10 +123,10 @@ int main()
     scanf("%d %d", &n, &m);
     for(int i = 0, x; i <= n; ++i) scanf("%d", &x), f.push_back(x);
     for(int i = 0, x; i <= m; ++i) scanf("%d", &x), g.push_back(x);
-    polymod(f, g, q, r);
-    for(int i:q) printf("%d ",i); printf("\n");
-    r.resize(m);
-    for(int i:r) printf("%d ",i);
+    polymod(f, g, q, f);
+    for(int i : q) printf("%d ", i);
+    printf("\n");
+    for(int i : f) printf("%d ", i);
     return 0;
 }
 
