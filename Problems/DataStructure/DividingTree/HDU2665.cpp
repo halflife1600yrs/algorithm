@@ -29,7 +29,7 @@ struct DividingTree
         build(mid, to, depth + 1);
     }
     int find(int fr, int to, int k, int l = 0, int r = n, int depth = 0)
-    {
+    { // 前闭后开区间
         if(to - fr == 1) return data[depth][fr].first;
         int mid = (l + r) / 2, prefix = fr > l ? toleft[depth][fr - 1] : 0;
         int left = toleft[depth][to - 1] - prefix;

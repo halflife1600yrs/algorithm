@@ -238,4 +238,7 @@
 - 7.29  
   P4512 多项式取模模板题  
   HDU6608 Fansblog 威尔逊定理  
-  HDU6611 K Subsequence 网络流
+  HDU6611 K Subsequence 网络流  
+- 7.30
+  P4723 NTT优化线性递推
+  几道线段树

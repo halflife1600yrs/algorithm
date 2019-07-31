@@ -1,3 +1,4 @@
+```c++
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -68,49 +69,26 @@ ll sumLR(int st, int en, int pos = 1)
 #undef rson
 #undef mid
 }
+```
 
-int main()
-{
-    // freopen(".in", "r", stdin);
-    // freopen(".out", "w", stdout);
-    int n, q;
-    scanf("%d %d", &n, &q);
-    for(int i = 1; i <= n; ++i) scanf("%lld", &val[i]);
-    sgt::build(1, n);
-    int pattern, l, r;
-    ll v;
-    for(int i = 0; i < q; ++i)
-    {
-        // printf("\n\n");
-        scanf("%d", &pattern);
-        if(pattern == 1)
-        {
-            scanf("%d %d %lld", &l, &r, &v);
-            sgt::addLR(l, r, v);
-        } else
-        {
-            scanf("%d %d", &l, &r);
-            printf("%lld\n", sgt::sumLR(l, r));
-        }
-    }
-    return 0;
-}
-
-/*==================================================================
-added at 2019-07-31 11:12:25 1007
-8 10
-1 5 8 39
-2 5 8
-1 3 6 3
-1 5 8 90
-1 1 5 21
-2 3 8
-1 3 8 17
-1 4 7 52
-2 2 6
+### 一组数据
+8 10  
+1 5 8 39  
+2 5 8  
+1 3 6 3  
+1 5 8 90  
+1 1 5 21  
+2 3 8  
+1 3 8 17  
+1 4 7 52  
+2 2 6  
 1 2 7 41
 
-2313
-4281
-3278
-==================================================================*/
+2313  
+4281  
+3278  
+luogu上跑1e5的数据大概120ms
+
+### 食用注意
+1. push_down的时候不要直接赋值
+2. 区间修改的时候下层的节点即使不进入也要push_down一次
