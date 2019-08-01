@@ -242,3 +242,10 @@
 - 7.30
   P4723 NTT优化线性递推
   几道线段树
+- 7.31
+  HDU6614 思维题
+  HDU6620 思维题
+- 8.1
+  NK885A digits 2 简单数论构造
+  NK885B generator 1 十进制的快速幂
+  NK885G subsequence 1 dp

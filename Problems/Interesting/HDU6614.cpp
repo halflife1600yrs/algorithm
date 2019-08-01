@@ -1,13 +1,4 @@
 #include <bits/stdc++.h>
-#define DEBUG
-#define debug1(x) std::cout << #x " = " << (x) << std::endl
-#define debug2(x, y) std::cout << #x " = " << (x) << " ," #y " = " << (y) << std::endl
-#define disp(arry, fr, to) \
-    { \
-        std::cout << #arry " : "; \
-        for(int _i = fr; _i < to; _i++) std::cout << arry[_i] << " "; \
-        std::cout << std::endl; \
-    }
 
 using namespace std;
 
@@ -27,9 +18,7 @@ inline int get(int y)
 
 int main()
 {
-    // cout<<get(2);
     for(int i=1;i<30;++i) pows[i]=(1<<i)-1;
-    // disp(pows,1,30)
     int T,n;
     scanf("%d",&T);
     for(int i=0;i<T;++i)
@@ -45,8 +34,13 @@ int main()
             if(i==n) c='\n';
             if(get(i)>n) printf("1%c",c);
             else printf("%d%c",get(i),c);
-            // else printf("1%c",c);
         }
     }
     return 0;
 }
+
+/*==================================================================
+added at 2019-08-01 21:07:20 2019HDU多校第四场A
+一组数中对每个数找到和它按位与最小的数,并且要字典序最小
+直接找第一个0就行
+==================================================================*/
