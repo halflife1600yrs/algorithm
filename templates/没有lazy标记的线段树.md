@@ -1,10 +1,8 @@
+## 没有lazy标记的线段树
+
 ```c++
-#include <bits/stdc++.h>
-
-using namespace std;
-
 const int MAXN = 1e5 + 5;
-typedef int Type; // 要用ll的话直接这里改
+typedef int Type;
 
 Type val[MAXN];
 
@@ -23,7 +21,7 @@ void build(int l, int r, int v, int pos = 1)
 }
 
 inline void push_down(int pos)
-{
+{ // push_down的时候一定要注意值不能是INIT
     V[lson] = V[rson] = V[pos];
 }
 
@@ -53,7 +51,7 @@ void modifyLR(int st, int en, Type v, int pos = 1)
     if(V[pos] != INIT) push_down(pos); // 因为没有lazy标记所以这一步可以在上一种情况后面,否则不行
     if(st <= mid) modifyLR(st, en, v, lson);
     if(mid + 1 <= en) modifyLR(st, en, v, rson);
-    if(V[lson] != V[rson])
+    if(V[lson] != V[rson]) // 更新当前信息
         V[pos] = INIT;
     else
         V[pos] = V[lson];
@@ -84,10 +82,10 @@ Type queryLR(int st, int en, int pos = 1)
 }
 
 void push_to_bottom(int pos = 1)
-{
+{ // O(n)时间将信息全部推到底
     if(L[pos] == R[pos])
     {
-        val[L[pos]] = V[pos];
+        val[L[pos]] = V[pos]; // val保存底部信息,注意这里是val[L[pos]]
         return;
     }
     if(V[pos] != INIT) push_down(pos);
@@ -98,7 +96,7 @@ void push_to_bottom(int pos = 1)
 
 ### 食用注意
 
-1. init值是区间中一定要修改为不会出现的或是对结果没有影响的数
-2. 这个板子所有的区间都是两端闭区间
-3. 区间查询非求和的时候要对queryLR()函数的操作仔细修改
-4. push_down之前一定要判断当前节点的v是否等于init
+1. `INIT`值一定要修改为不会出现的或是对结果没有影响的数
+2. 所有的区间都是前闭后闭区间
+3. `lson`、`rson`、`mid`都是宏
+4. 区间查询非求和的时候要对`queryLR()`函数的操作仔细修改

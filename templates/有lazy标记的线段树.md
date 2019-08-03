@@ -1,8 +1,6 @@
+## 有lazy标记的线段树
+
 ```c++
-#include <bits/stdc++.h>
-
-using namespace std;
-
 typedef long long ll;
 const int MAXN = 1e5 + 5;
 
@@ -27,7 +25,7 @@ void build(int l, int r, int pos = 1)
 void push_down(int pos)
 {
     V[pos] += (R[pos] - L[pos] + 1) * lazy[pos];
-    if(R[pos]>L[pos]) lazy[lson] += lazy[pos], lazy[rson] += lazy[pos];
+    if(R[pos]>L[pos]) lazy[lson] += lazy[pos], lazy[rson] += lazy[pos]; // 不要直接赋值
     lazy[pos] = 0;
 }
 
@@ -37,7 +35,7 @@ void addLR(int st, int en, ll v, int pos = 1)
     if(st <= l && r <= en)
     {
         lazy[pos] += v; // 这里+=就不需要先push_down一次
-        push_down(pos); // 这里一定要push_down,方便回退到上一层的时候更新上一层的值
+        push_down(pos); // 这里一定要push_down,方便回退的时候更新上一层的值
         return;
     }
     if(lazy[pos]) push_down(pos); // 完全不命中也要push_down一次,方便上一层更新
@@ -50,7 +48,7 @@ void addLR(int st, int en, ll v, int pos = 1)
         addLR(st, en, v, rson);
     else if(lazy[rson])
         push_down(rson);
-    V[pos] = V[lson] + V[rson];
+    V[pos] = V[lson] + V[rson]; // 更新当前信息
 }
 
 ll sumLR(int st, int en, int pos = 1)
@@ -72,23 +70,28 @@ ll sumLR(int st, int en, int pos = 1)
 ```
 
 ### 一组数据
-8 10  
-1 5 8 39  
-2 5 8  
-1 3 6 3  
-1 5 8 90  
-1 1 5 21  
-2 3 8  
-1 3 8 17  
-1 4 7 52  
-2 2 6  
+```
+8 10
+659 463 793 740 374 330 772 681 
+1 5 8 39 // 修改
+2 5 8 // 询问
+1 3 6 3
+1 5 8 90
+1 1 5 21
+2 3 8
+1 3 8 17
+1 4 7 52
+2 2 6
 1 2 7 41
 
-2313  
-4281  
-3278  
+2313
+4281
+3278
+```
+
 luogu上跑1e5的数据大概120ms
 
 ### 食用注意
-1. push_down的时候不要直接赋值
-2. 区间修改的时候下层的节点即使不进入也要push_down一次
+
+1. `lson`、`rson`、`mid`都是宏
+2. 全部都是前闭后闭区间

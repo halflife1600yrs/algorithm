@@ -64,7 +64,7 @@ void work(const poly& p1, const poly& p2, poly& p3, size_t n = MAXL)
         if(resort[i] < l2) v2[i] = p2[resort[i]];
     }
     transform(v1, 1), transform(v2, 1);
-    p3 = poly(lenz, 0);
+    p3.resize(lenz);
     for(int i = 0; i < lenz; ++i)
         p3[i] = v1[resort[i]] * 1ll * v2[resort[i]] % MODE;
     transform(p3, -1);

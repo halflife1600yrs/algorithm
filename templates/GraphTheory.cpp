@@ -2,25 +2,26 @@
 
 using namespace std;
 
-typedef int Type;
-const int MAXV = 1e5 + 5, MAXE = 5e5 + 5;
+typedef long long ll;
+const int MAXV = 1e5 + 5, MAXE = 5e5 + 5; // 建模之后一定不要忘记计算新模型的边数
 const int INF = 0x7f7f7f7f;
 // INF的值根据需要增大
 int v, e;
 
 struct Graph
-{ // 向前星存边框架,后面的算法继承此类;比赛的时候把struct去掉
+{ // 向前星存边框架,后面的算法继承此类
     struct Edge
     {
-        int to, last, l;
-        void set(int _to, int _last, int _l) { to = _to, last = _last, l = _l; }
-    } edges[MAXE]; // 注意!!!边记得开两倍!!!
-    // 建模之后一定不要忘记计算新模型的边数
+        int to, last;
+        ll l;
+        void set(int _to, int _last, ll _l) { to = _to, last = _last, l = _l; }
+    } edges[MAXE]; // 边记得开两倍!!!
+
     int top, head[MAXV];
 
     void init() { top = 0, memset(head, -1, sizeof(head)); }
 
-    void add(int fr, int to, int l)
+    void add(int fr, int to, ll l)
     {
         edges[top].set(to, head[fr], l);
         head[fr] = top++;
@@ -30,7 +31,7 @@ struct Graph
 /*================================================================================*/
 // 迪杰斯特拉算法
 // 复杂度O((V+E)lgV)
-typedef pair<int, int> pii;
+typedef pair<int, ll> pii;
 struct cmp
 {
     bool operator()(const pii& a, const pii& b) { return a.second > b.second; }
@@ -38,13 +39,13 @@ struct cmp
 
 struct DIJKSTRA : Graph
 {
-    int dis[MAXV];
+    ll dis[MAXV];
     bool vis[MAXV];
 
     void dijkstra(int start)
     {
         memset(dis, 0x7f, sizeof(dis));
-        memset(vis, 0, sizeof(vis));
+        // memset(vis, 0, sizeof(vis));
         priority_queue<pii, vector<pii>, cmp> q;
         dis[start] = 0;
         q.push(pii(start, 0));
@@ -54,11 +55,11 @@ struct DIJKSTRA : Graph
             fr = q.top().first, q.pop();
             if(vis[fr]) continue; // fr可能多次入队,但第一次出队时就已经更新完成
             vis[fr] = 1;
-            for(int i = head[fr], d; ~i; i = edges[i].last)
+            for(int i = head[fr]; ~i; i = edges[i].last)
             {
                 to = edges[i].to;
                 if(vis[to]) continue;
-                d = dis[fr] + edges[i].l;
+                ll d = dis[fr] + edges[i].l;
                 // 这里也可以用来处理最小路径上的最大边或最大路径上的最小边
                 // 求最小路径上最大边时,优先队列cmp不变,上句改为d=max(dis[fr],edges[i].l)
                 // 同时下一句应该改为d更大时更新
@@ -73,14 +74,15 @@ struct DIJKSTRA : Graph
 // 复杂度O(KE),如果被卡就退化为O(VE)
 struct SPFA : Graph
 {
-    int dis[MAXV], cnt[MAXV];
+    ll dis[MAXV];
+    int cnt[MAXV];
     bool vis[MAXV];
 
     bool spfa()
     {
-        memset(vis, 0, sizeof(vis));
         memset(dis, 0x7f, sizeof(dis));
-        memset(cnt, 0, sizeof(cnt));
+        // memset(vis, 0, sizeof(vis));
+        // memset(cnt, 0, sizeof(cnt));
         queue<int> q;
         dis[1] = 0;
         q.push(1);
@@ -90,10 +92,10 @@ struct SPFA : Graph
         {
             fr = q.front(), q.pop();
             vis[fr] = 0;
-            for(int i = head[fr], d; ~i; i = edges[i].last)
+            for(int i = head[fr]; ~i; i = edges[i].last)
             {
                 to = edges[i].to;
-                d = dis[fr] + edges[i].l; // 这里注意即使在队列中也要更新
+                ll d = dis[fr] + edges[i].l; // 这里注意即使在队列中也要更新
                 if(d < dis[to])
                 {
                     dis[to] = d;
@@ -157,7 +159,7 @@ struct LCA : Graph
             if(fa[a][i] != fa[b][i]) //如果祖先相同,说明高于等于LCA,这时候要continue
                 a = fa[a][i], b = fa[b][i]; //不同的话说明可以继续跳,先跳一步
         // 注意这里还要再更新一次路径信息
-        return fa[a][0];
+        return fa[a][0]; // 返回lca编号
     }
 };
 
@@ -168,27 +170,28 @@ struct LCA : Graph
 // 可以用Fibonacci堆优化到O(E+vlgV),但是我不会
 struct PRIM
 {
-    int dis[MAXV];
+    ll dis[MAXV];
     bool vis[MAXV];
 
-    int graph[MAXV][MAXV];
+    ll graph[MAXV][MAXV]; // 邻接矩阵存边
 
     void init() { memset(graph, 0x7f, sizeof(graph)); }
 
-    void add(int fr, int to, int l)
+    void add(int fr, int to, ll l)
     { // 记得无向图要赋值两个点
         graph[fr][to] = graph[to][fr] = min(graph[to][fr], l);
     }
 
-    int prim()
+    ll prim()
     {
         memset(dis, 0x7f, sizeof(dis));
-        memset(vis, 0, sizeof(vis));
+        // memset(vis, 0, sizeof(vis));
         dis[1] = 0, vis[1] = 1;
-        int ans = 0, lenz = 0, last = 1;
+        int lenz = 0, last = 1, next; // lenz记录mst边数
+        ll ans = 0, mini;
         for(int i = 0; i < v - 1; ++i)
         {
-            int mini = INF, next = -1;
+            mini = INF, next = -1;
             for(int j = 1; j <= v; ++j)
             {
                 if(vis[j]) continue;
@@ -220,26 +223,27 @@ struct KRUSKAL
 
     struct Edge
     {
-        int fr, to, v;
-        void set(int _fr, int _to, int _v) { fr = _fr, to = _to, v = _v; }
-        bool operator<(const Edge& x) const { return v < x.v; }
+        int fr, to, l;
+        void set(int _fr, int _to, ll _l) { fr = _fr, to = _to, l = _l; }
+        bool operator<(const Edge& x) const { return l < x.l; }
     } edges[MAXE];
 
     void init() { top = 0; }
 
-    void add(int fr, int to, int l) { edges[top++].set(fr, to, l); }
+    void add(int fr, int to, ll l) { edges[top++].set(fr, to, l); }
 
-    int kruskal(int v)
+    ll kruskal(int v)
     {
         for(int i = 0; i < v; ++i) u_set[i] = i;
         sort(edges, edges + top);
-        int ans = 0, fr, to, x, y;
+        ll ans = 0;
+        int fr, to, x, y;
         for(int i = 0; i < top; ++i)
         {
             fr = edges[i].fr, to = edges[i].to;
             x = getf(fr), y = getf(to);
             if(x == y) continue;
-            ans += edges[i].v;
+            ans += edges[i].l;
             u_set[y] = x; // 注意这里更新的是y和x的fa
         }
         return ans;
@@ -252,9 +256,10 @@ struct KRUSKAL
 // O(V+E)
 struct TOPSORT : Graph
 {
-    int in[MAXV], dp[MAXV]; // 这个dp是用来求DAG的最长路
+    int in[MAXV];
+    ll dp[MAXV]; // 以拓扑排序求DAG的最长路为例
 
-    void add(int fr, int to, int l) // override
+    void add(int fr, int to, ll l) // override
     { // init里面没有in的初始化,多组样例不要忘记加
         edges[top].set(to, head[fr], l);
         ++in[to];
@@ -264,7 +269,7 @@ struct TOPSORT : Graph
     void topsort()
     {
         queue<int> q;
-        memset(dp, 0, sizeof(dp));
+        // memset(dp, 0, sizeof(dp));
         for(int i = 1; i <= v; ++i)
             if(!in[i]) q.push(i);
         int fr, to;
@@ -289,7 +294,7 @@ struct DINIC : Graph
     bool bfs(int start, int end)
     {
         queue<int> q;
-        memset(depth, -1, sizeof(depth));
+        memset(depth, -1, sizeof(depth)); // 一定要初始化bfs可能运行多次
         q.push(start);
         depth[start] = 0;
         int fr, to;
@@ -306,11 +311,12 @@ struct DINIC : Graph
         return depth[end] > 0;
     }
 
-    int dfs(int fr, int end, int addflow = INF)
+    ll dfs(int fr, int end, ll addflow = INF)
     {
         if(fr == end) return addflow;
-        int tf = 0, to, d = depth[fr] + 1;
-        for(int i = head[fr], add; ~i; i = edges[i].last)
+        int to, d = depth[fr] + 1;
+        ll tf = 0, add;
+        for(int i = head[fr]; ~i; i = edges[i].last)
         { // 一次dfs多次增广,tf记录当前已经增广流量
             to = edges[i].to;
             if(depth[to] == d && edges[i].l > 0)
@@ -323,9 +329,9 @@ struct DINIC : Graph
         return tf;
     }
 
-    int dinic(int start, int end)
+    ll dinic(int start, int end)
     {
-        int ans = 0;
+        ll ans = 0;
         while(bfs(start, end)) ans += dfs(start, end);
         return ans;
     }
@@ -423,7 +429,7 @@ struct HUNGARIAN : Graph
 /*================================================================================*/
 // tarjan算法
 // 复杂度O(V+E)
-struct Quee
+struct Stack
 {
     int data[MAXV], t;
     void add(int x) { data[t++] = x; }
@@ -432,14 +438,13 @@ struct Quee
 
 struct TARJAN : Graph
 {
-
     bool ins[MAXV];
     int low[MAXV], dfn[MAXV], dfs_num;
 
     int tarjan()
-    {
+    { // 返回强连通分量数目
         dfs_num = S.t = 0;
-        memset(ins, 0, sizeof(ins));
+        // memset(ins, 0, sizeof(ins));
         memset(dfn, -1, sizeof(dfn));
         int ans = 0;
         for(int i = 1; i <= v; ++i)
@@ -473,45 +478,6 @@ struct TARJAN : Graph
             }
         }
         return ans;
-    }
-};
-
-/*================================================================================*/
-// 树上倍增
-struct Tree : Graph
-{
-    int father[MAXV][DEPTH], depth[MAXV];
-    void bfs(int root)
-    { //bfs得到所有结点的第(2^i)个祖先
-        queue<int> Q;
-        Q.push(root);
-        father[root][0] = -1, depth[root] = 0;
-        int fr, to;
-        while(!Q.empty())
-        { //标准bfs过程
-            fr = Q.front(), Q.pop();
-            for(int addr = head[fr]; addr != -1; addr = edges[addr].last)
-            {
-                to = edges[addr].to;
-                if(to == father[fr][0]) continue;
-                father[to][0] = fr, depth[to] = depth[fr] + 1;
-                //关键点，一个数的第(2^i)个祖先是它的第(2^ i-1)个祖先的第(2^ i-1)个祖先
-                for(int i = 1; (1 << i) <= depth[to]; ++i)
-                    father[to][i] = father[father[to][i - 1]][i - 1];
-                Q.push(to);
-            }
-        }
-    }
-    int query(int a, int b)
-    {
-        if(depth[a] < depth[b]) swap(a, b);
-        while(depth[a] > depth[b]) //先抬到同一层
-            a = father[a][get_log(depth[a] - depth[b])];
-        if(a == b) return a;
-        for(int i = get_log(depth[a]); i >= 0; --i)
-            if(father[a][i] != father[b][i]) //如果祖先相同，说明高于等于LCA，这时候要continue
-                a = father[a][i], b = father[b][i]; //不同的话说明可以继续跳，先跳一步
-        return father[a][0];
     }
 };
 
