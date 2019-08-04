@@ -18,7 +18,7 @@ void init()
             dp[i][h]=0;
             for(int j=0;j<i;++j)
             {
-                for(int l=0;l<h;++l)
+                for(int l=0;l<h;++l) // 左边的高度为h
                 {
                     if(j==i-1-j&&l==h-1) {}// 防止左右算重复了
                     else
@@ -26,7 +26,7 @@ void init()
                         dp[i][h]+=dp[j][h-1]*dp[i-1-j][l];
                     }
                 }
-                for(int l=0;l<h-1;++l)
+                for(int l=0;l<h-1;++l) // 右边的高度为h
                 {
                     if(j==i-1-j&&l==h-1) {}
                     else

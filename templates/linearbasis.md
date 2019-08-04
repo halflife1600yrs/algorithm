@@ -1,9 +1,9 @@
+```c++
 #include <bits/stdc++.h>
 
 using namespace std;
 
 typedef long long ll;
-const int L=64;
 
 template<int L>
 struct linearbasis
@@ -56,6 +56,9 @@ struct linearbasis
     }
 };
 
+const int L=64;
+
+//=========================================================
 bitset<L> tmp[L];
 int cnt;
 bool ind;
@@ -86,7 +89,8 @@ bool query_kth_big(long long k,bitset<L>& ans)
             ans^=tmp[i];
     return 0;
 }
-
+//=========================================================
+// 线性基的并
 void merge(const linearbasis<L>& x,const linearbasis<L>& y,linearbasis<L>& z)
 { // z可以与x相同但不能与y相同
     z=x;
@@ -99,7 +103,7 @@ void intersect(const linearbasis<L>& x,const linearbasis<L>& y,linearbasis<L>& z
 {
     z=linearbasis<L>();
     linearbasis<L> c=y,d=y;
-    for(int i=0;i<32;++i)
+    for(int i=0;i<L;++i)
     {
         bitset<L> a=x.b[i];
         if(a.none()) continue;
@@ -114,16 +118,8 @@ void intersect(const linearbasis<L>& x,const linearbasis<L>& y,linearbasis<L>& z
         else c.b[j]=a,d.b[j]=t;
     }
 }
-int main()
-{
-    linearbasis<L> a,b,c;
-    a.insert(bitset<L>(12));
-    a.insert(bitset<L>(3));
-    b.insert(bitset<L>(10));
-    b.insert(bitset<L>(5));
-    intersect(a,b,c);
-    for(int i=L-1;i>=0;--i)
-        if(c.b[i].any())
-            printf("%llu\n",c.b[i].to_ullong());
-    return 0;
-}
+```
+
+### 食用注意
+
+1. 求k大需要先rebuild一遍然后存到一个数组里面，以支持多次查询
