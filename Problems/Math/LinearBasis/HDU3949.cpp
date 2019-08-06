@@ -116,14 +116,29 @@ void intersect(const linearbasis<L>& x,const linearbasis<L>& y,linearbasis<L>& z
 }
 int main()
 {
-    linearbasis<L> a,b,c;
-    a.insert(bitset<L>(12));
-    a.insert(bitset<L>(3));
-    b.insert(bitset<L>(10));
-    b.insert(bitset<L>(5));
-    intersect(a,b,c);
-    for(int i=L-1;i>=0;--i)
-        if(c.b[i].any())
-            printf("%llu\n",c.b[i].to_ullong());
+    for(int T,n,q,_=scanf("%d",&T);T--;++_)
+    {
+        scanf("%d",&n);
+        ll x;
+        linearbasis<L> l_b;
+        // debug1(l_b.independent);
+        // for(int i=0;i<L;++i)
+            // cout<<l_b.b[i].to_string()<<endl;
+        for(int i=0;i<n;++i)
+        {
+            scanf("%lld",&x);
+            l_b.insert(x);
+        }
+        printf("Case #%d:\n",_);
+        scanf("%d",&q);
+        rebuild(l_b);
+        bitset<L> ans;
+        for(int i=0;i<q;++i)
+        {
+            scanf("%lld",&x);
+            if(query_kth_big(x,ans)) printf("-1\n");
+            else printf("%llu\n",ans.to_ullong());
+        }
+    }
     return 0;
 }

@@ -156,7 +156,7 @@ struct LCA : Graph
             a = fa[a][get_log(depth[a] - depth[b])];
         if(a == b) return a;
         for(int i = get_log(depth[a]); i >= 0; --i)
-            if(fa[a][i] != fa[b][i]) //如果祖先相同,说明高于等于LCA,这时候要continue
+            if(fa[a][i] != fa[b][i]) //如果祖先相同,说明高于等于LCA,这时候要continue不能break
                 a = fa[a][i], b = fa[b][i]; //不同的话说明可以继续跳,先跳一步
         // 注意这里还要再更新一次路径信息
         return fa[a][0]; // 返回lca编号

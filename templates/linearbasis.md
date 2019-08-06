@@ -1,9 +1,8 @@
+### 线性基（插入，求最值，第k大，交并）
+
 ```c++
-#include <bits/stdc++.h>
-
-using namespace std;
-
 typedef long long ll;
+const int L=64;
 
 template<int L>
 struct linearbasis
@@ -56,9 +55,7 @@ struct linearbasis
     }
 };
 
-const int L=64;
-
-//=========================================================
+//==================求第k大相关========================
 bitset<L> tmp[L];
 int cnt;
 bool ind;
@@ -90,11 +87,11 @@ bool query_kth_big(long long k,bitset<L>& ans)
     return 0;
 }
 //=========================================================
-// 线性基的并
+
 void merge(const linearbasis<L>& x,const linearbasis<L>& y,linearbasis<L>& z)
 { // z可以与x相同但不能与y相同
     z=x;
-    for(int i=L-1;i>=0;++i)
+    for(int i=L-1;i>=0;--i)
         if(y.b[i][i]) z.insert(y.b[i]);
 }
 // 线性基的交,不能直接把x里能被y表示的作为答案,考虑{1100,0011}{1010,0101}
@@ -103,7 +100,7 @@ void intersect(const linearbasis<L>& x,const linearbasis<L>& y,linearbasis<L>& z
 {
     z=linearbasis<L>();
     linearbasis<L> c=y,d=y;
-    for(int i=0;i<L;++i)
+    for(int i=0;i<32;++i)
     {
         bitset<L> a=x.b[i];
         if(a.none()) continue;
@@ -123,3 +120,51 @@ void intersect(const linearbasis<L>& x,const linearbasis<L>& y,linearbasis<L>& z
 ### 食用注意
 
 1. 求k大需要先rebuild一遍然后存到一个数组里面，以支持多次查询
+
+### 前缀线性基（HDU6579）
+
+```c++
+struct linearbasis
+{
+    int b[L], pos[L];
+
+    linearbasis& operator=(const linearbasis& x)
+    {
+        for(int i = 0; i < L; ++i)
+            b[i] = x.b[i], pos[i] = x.pos[i];
+        return *this;
+    }
+
+    void insert(int x, int p)
+    { // 优先保存出现晚的基，如{1000}插入1001后变为{1001，0001}
+        for(int i = L - 1; i >= 0; --i)
+            if(x & (1 << i))
+                if(b[i])
+                {
+                    if(pos[i] > p)
+                        x ^= b[i];
+                    else
+                    {
+                        b[i] ^= x;
+                        swap(b[i], x);
+                        swap(pos[i], p);
+                    }
+                } else
+                {
+                    b[i] = x;
+                    pos[i] = p;
+                    break;
+                }
+    }
+
+    int query_max(int l)
+    { // 查找能被位置大于等于l的表示的最大值
+        int ans = 0;
+        for(int i = L - 1; i >= 0; --i)
+            if(!(ans & (1 << i)) && b[i] && pos[i] >= l)
+                ans ^= b[i];
+        return ans;
+    }
+};
+```
+
