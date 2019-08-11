@@ -246,6 +246,25 @@
   HDU6614 思维题
   HDU6620 思维题
 - 8.1
-  NK885A digits 2 简单数论构造
-  NK885B generator 1 十进制的快速幂
+  NK885A digits 2 简单数论构造  
+  NK885B generator 1 十进制的快速幂  
   NK885G subsequence 1 dp
+- 8.2  
+  NK885F subsequence 2 拓扑排序
+  HDU3949 xor 线性基第k大
+- 8.3  
+  P3705 序列计数 生成函数  
+  P3702 新生舞会 分数规划+二分图最大权匹配  
+  CF9D How many trees? dp
+- 8.4  
+  NK884B xor 线段树维护线性基交  
+- 8.5  
+  HDU6579 Operation 前缀线性基  
+  HDU6628 permutation 1 暴力  
+  P3292 幸运数字 lca+线性基  
+  P3265 装备购买 线性基  
+  P4301 新Nim游戏 sg函数+线性基  
+  NK17968 xor序列 线性基
+- 8.10  
+  P1073 最优贸易 bfs/tarjan  
+  P3199 最小比率环 karp算法
