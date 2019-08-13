@@ -254,7 +254,7 @@ struct KRUSKAL
 // 拓扑排序
 // 要求DAG,也可以处理DAG上路径的信息,如最长路
 // O(V+E)
-struct TOPSORT : Graph
+struct TOPOSORT : Graph
 {
     int in[MAXV];
     ll dp[MAXV]; // 以拓扑排序求DAG的最长路为例
@@ -266,7 +266,7 @@ struct TOPSORT : Graph
         head[fr] = top++;
     }
 
-    void topsort()
+    void toposort()
     {
         queue<int> q;
         // memset(dp, 0, sizeof(dp));

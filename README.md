@@ -268,3 +268,18 @@
 - 8.10  
   P1073 最优贸易 bfs/tarjan  
   P3199 最小比率环 karp算法
+- 8.11  
+  HDU6567 cotree 树形dp  
+  HDU6570 wave dp  
+  HDU6574 rng 概率题  
+  P3178 树上操作 树链剖分
+- 8.12  
+  NK15055 萌新AA与棋盘 水题  
+  HDU1269 迷宫城堡 复习一下tarjan  
+  P3387 tarjan缩点
+- 8.13  
+  HDU6252 Subway Chasing 第一次写差分约束的题目,居然看出这个模型来了  
+  HDU6243 Dogs and Cages 简单期望  
+  HDU6245 Rich Game 贪心  
+  HDu6253 Knightmare 打表找规律,是个二次函数  
+  P3388 tarjan求割点
