@@ -364,10 +364,8 @@ struct HUNGARIAN : Graph
         // memset(check, 0, sizeof(check));
         // memset(pre, 0, sizeof(pre));
         for(int i = 1; i <= n; ++i)
-        {
             if(!match[i])
                 if(bfs(i)) ans++;
-        }
         return ans;
     }
     bool dfs(int fr)

@@ -2,10 +2,19 @@
 
 using namespace std;
 
-const int MAXV=2e4+5,MAXE=2e5+5;
-int v,e,ans;
+const int MAXV=155,MAXE=1e4+5;
+typedef pair<int,int> pii;
+int v,e;
 
-bool iscut[MAXV];
+struct cmp
+{
+    bool operator()(const pii& a,const pii& b)
+    {
+        return a.first==b.first?a.second>b.second:a.first>b.first;
+    }
+};
+
+priority_queue<pii,vector<pii>,cmp> ans;
 
 namespace G
 {
@@ -38,33 +47,21 @@ namespace G
             {
                 dfs(to,fr);
                 low[fr]=min(low[fr],low[to]);
-                if(low[to]>=dfn[fr]) iscut[fr]=1; // 只要一颗子树里面没有回边,就是割点
+                if(low[to]>dfn[fr]) ans.push(pii(fr,to));//,debug2(fr,to); // 只要一颗子树里面没有回边,就是割点
             } else low[fr]=min(low[fr],dfn[to]);
         }
-        if(iscut[fr]) ++ans;
     }
 
     void tarjan()
     {
-        dfs_num=ans=0;
-        // memset(dfn,0,sizeof(dfn));
+        dfs_num=0;
         for(int i=1;i<=v;++i)
-            if(!dfn[i])
-            {
-                dfn[i]=low[i]=++dfs_num;
-                int child=0;
-                for(int j=head[i];~j;j=edges[j].last)
-                    if(!dfn[edges[j].to]) // 根节点需要特殊判断
-                        dfs(edges[j].to,i),++child;
-                if(child>=2) iscut[i]=1,++ans;
-            }
+            if(!dfn[i]) dfs(i,i);
     }
 }
 
 int main()
 {
-    // freopen(".in", "r", stdin);
-    // freopen(".out", "w", stdout);
     scanf("%d %d",&v,&e);
     G::init();
     for(int i=0,fr,to;i<e;++i)
@@ -73,15 +70,15 @@ int main()
         G::add(fr,to),G::add(to,fr);
     }
     G::tarjan();
-    printf("%d\n",ans);
-    for(int i=1;i<=v;++i)
-        if(iscut[i]) printf("%d ",i);
-    puts("");
+    while(!ans.empty())
+    {
+        printf("%d %d\n",ans.top().first,ans.top().second);
+        ans.pop();
+    }
     return 0;
 }
 
 /*==================================================================
-added at 2019-08-13 21:07:03 P3388
-tarjan缩点模板
-还是喜欢特判根节点而不是写在一起的
+added at 2019-08-13 21:44:46 P1656
+割边模板
 ==================================================================*/
