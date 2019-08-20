@@ -31,16 +31,15 @@ namespace G
 
     void unique()
     { // 删重边
-        int to;
         memset(vise,-1,sizeof(vise));
-        for(int i=0;i<top;++i)
+        for(int fr=0,to;fr<top;++fr)
         {
-            vise[edges[head[i]].to]=i;
-            for(int pre=head[i],j=edges[pre].last;~j;j=edges[j].last)
+            vise[edges[head[fr]].to]=fr;
+            for(int i=head[fr],j=edges[i].last;~j;j=edges[j].last)
             {
                 to=edges[j].to;
-                if(vise[to]==i) edges[pre].last=edges[j].last;
-                else vise[to]=i,pre=j;
+                if(vise[to]==i) edges[i].last=edges[j].last;
+                else vise[to]=fr,i=j;
             }
         }
     }

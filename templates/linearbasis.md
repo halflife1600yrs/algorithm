@@ -74,7 +74,7 @@ int rebuild(linearbasis<L> l_b)
     ind=l_b.independent;
     return cnt;
 }
-// 答案是所有第i大的线性基异或(已经转为对角阵),i满足k的第i位为0
+// 答案是所有第i大的线性基异或(已经转为对角阵),i满足k的第i位为1
 bool query_kth_big(long long k,bitset<L>& ans)
 { // 询问第k大(kth_big/kth_smallest)
     if(!ind) --k; // 线性不独立的话0是最小的
@@ -100,7 +100,7 @@ void intersect(const linearbasis<L>& x,const linearbasis<L>& y,linearbasis<L>& z
 {
     z=linearbasis<L>();
     linearbasis<L> c=y,d=y;
-    for(int i=0;i<32;++i)
+    for(int i=0;i<L;++i)
     {
         bitset<L> a=x.b[i];
         if(a.none()) continue;

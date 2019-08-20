@@ -283,3 +283,15 @@
   HDU6245 Rich Game 贪心  
   HDu6253 Knightmare 打表找规律,是个二次函数  
   P3388 tarjan求割点
+- 8.14
+  HDU6660 Acesrc and Hunting 构造题
+  HDU6666 Quailty and CCPC 水题
+  HDU6667 Roundgod and Milk Tea 比较麻烦的贪心题
+  P1656 炸铁路 割边
+- 8.15
+  CF208E Blood Cousins lca+dfs序
+  CF209A Multicolored Marbles 简单dp
+  CF209B Pixels 思维题
+  CF209C Trails and Glades 加边形成欧拉回路,情况有点多
+  P3386 复习匈牙利算法
+  

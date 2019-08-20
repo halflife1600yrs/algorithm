@@ -105,12 +105,12 @@ void dfs1(int fr, int fa)
     }
 }
 
-int cnt, id[MAXV], chain[MAXV];
+int dfs_num, id[MAXV], chain[MAXV];
 
 void dfs2(int fr, int ctop)
 {
-    id[fr] = ++cnt;
-    _val[cnt] = val[fr]; // 注意一下线段树build的时候是用_val的值
+    id[fr] = ++dfs_num;
+    _val[dfs_num] = val[fr]; // 注意一下线段树build的时候是用_val的值
     chain[fr] = ctop;
     if(sz[fr]==1) return;
     dfs2(son[fr], ctop);
@@ -126,9 +126,9 @@ void tree_cut()
 {
     depth[1]=0;
     dfs1(1,1);
-    cnt=0;
+    dfs_num=0;
     dfs2(1,1);
-    sgt::build(1,cnt);
+    sgt::build(1,dfs_num);
 }
 
 void add_point(int a,ll v)

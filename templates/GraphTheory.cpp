@@ -6,7 +6,7 @@ typedef long long ll;
 const int MAXV = 1e5 + 5, MAXE = 5e5 + 5; // 建模之后一定不要忘记计算新模型的边数
 const int INF = 0x7f7f7f7f;
 // INF的值根据需要增大
-int v, e;
+int V, E;
 
 struct Graph
 { // 向前星存边框架,后面的算法继承此类
@@ -19,12 +19,46 @@ struct Graph
 
     int top, head[MAXV];
 
-    void init() { top = 0, memset(head, -1, sizeof(head)); }
+    void init() { top = 0, fill(head + 1, head + V + 1, -1); }
 
     void add(int fr, int to, ll l)
     {
         edges[top].set(to, head[fr], l);
         head[fr] = top++;
+    }
+
+    int times[MAXV]; // 遍历的时间戳
+    void uniq()
+    { // 删重边
+        // fill(times + 1, times + V + 1, 0);
+        for(int fr = 1, to; fr <= V; ++fr)
+        {
+            times[edges[head[fr]].to] = fr;
+            for(int i = head[fr], j = edges[i].last; ~j; j = edges[j].last)
+            {
+                to = edges[j].to;
+                if(times[to] == i)
+                    edges[i].last = edges[j].last;
+                else
+                    times[to] = fr, i = j;
+            }
+        }
+    }
+
+    int head2[MAXV];
+    void rev()
+    { // 求转置,需要辅助数组head2
+        fill(head2 + 1, head2 + V + 1, -1);
+        for(int fr = 1, to; fr <= V; ++fr)
+        {
+            for(int i = head[fr], j; ~i && (j = edges[i].last, 1); i = j)
+            {
+                to = edges[i].to;
+                edges[i].set(fr, head2[to], edges[i].l);
+                head2[to] = i;
+            }
+        }
+        for(int i = 1; i <= V; ++i) head[i] = head2[i];
     }
 };
 
@@ -44,8 +78,8 @@ struct DIJKSTRA : Graph
 
     void dijkstra(int start)
     {
-        memset(dis, 0x7f, sizeof(dis));
-        // memset(vis, 0, sizeof(vis));
+        fill(dis + 1, dis + V + 1, INF);
+        // fill(vis + 1, vis + V + 1, 0);
         priority_queue<pii, vector<pii>, cmp> q;
         dis[start] = 0;
         q.push(pii(start, 0));
@@ -80,9 +114,9 @@ struct SPFA : Graph
 
     bool spfa()
     {
-        memset(dis, 0x7f, sizeof(dis));
-        // memset(vis, 0, sizeof(vis));
-        // memset(cnt, 0, sizeof(cnt));
+        fill(dis + 1, dis + V + 1, INF);
+        // fill(vis + 1, vis + V + 1, INF);
+        // fill(cnt + 1, cnt + V + 1, INF);
         queue<int> q;
         dis[1] = 0;
         q.push(1);
@@ -101,7 +135,7 @@ struct SPFA : Graph
                     dis[to] = d;
                     if(vis[to]) continue;
                     vis[to] = 1, ++cnt[to];
-                    if(cnt[to] > v) return 1;
+                    if(cnt[to] > V) return 1;
                     q.push(to);
                 }
             }
@@ -114,18 +148,10 @@ struct SPFA : Graph
 // 树上倍增求LCA
 // 预处理O(ElgV),查询O(lgV)
 // 可以用来处理树上两点间路径长、路径上最值
-const int DEPTH = 20; // log_2(MAXV)
-int lg2[MAXV];
-int get_log(int x)
-{ //保存每个数对2的对数
-    if(lg2[x]) return lg2[x];
-    for(int i = 0; i < 22; ++i)
-        if((1 << i) > x) return (lg2[x] = i - 1);
-}
-
+const int DEP = 20; // log_2(MAXV)
 struct LCA : Graph
 {
-    int depth[MAXV], fa[MAXV][DEPTH];
+    int depth[MAXV], fa[MAXV][DEP];
 
     void bfs(int root)
     { //bfs得到所有结点的第(2^i)个祖先
@@ -152,14 +178,14 @@ struct LCA : Graph
     int query(int a, int b)
     { // 注意用于处理两点路径信息的时候,都先更新再上跳
         if(depth[a] < depth[b]) swap(a, b);
-        while(depth[a] > depth[b]) //先抬到同一层
-            a = fa[a][get_log(depth[a] - depth[b])];
+        for(int i = DEP - 1; i >= 0; --i) //先抬到同一层
+            if(depth[a] - (1 << i) >= depth[b])
+                a = fa[a][i];
         if(a == b) return a;
-        for(int i = get_log(depth[a]); i >= 0; --i)
-            if(fa[a][i] != fa[b][i]) //如果祖先相同,说明高于等于LCA,这时候要continue不能break
-                a = fa[a][i], b = fa[b][i]; //不同的话说明可以继续跳,先跳一步
-        // 注意这里还要再更新一次路径信息
-        return fa[a][0]; // 返回lca编号
+        for(int i = DEP - 1; i >= 0; --i) //如果祖先相同,说明高于等于LCA,这时候要continue不能break
+            if(fa[a][i] != fa[b][i])
+                a = fa[a][i], b = fa[b][i];
+        return fa[a][0]; // 注意这里还要再更新一次路径信息
     }
 };
 
@@ -189,10 +215,10 @@ struct PRIM
         dis[1] = 0, vis[1] = 1;
         int lenz = 0, last = 1, next; // lenz记录mst边数
         ll ans = 0, mini;
-        for(int i = 0; i < v - 1; ++i)
+        for(int i = 0; i < V - 1; ++i)
         {
             mini = INF, next = -1;
-            for(int j = 1; j <= v; ++j)
+            for(int j = 1; j <= V; ++j)
             {
                 if(vis[j]) continue;
                 if(graph[last][j] < dis[j]) dis[j] = graph[last][j];
@@ -203,7 +229,7 @@ struct PRIM
             vis[next] = 1;
             last = next;
         }
-        if(lenz != v - 1) return -1;
+        if(lenz != V - 1) return -1;
         return ans;
     }
 };
@@ -232,9 +258,9 @@ struct KRUSKAL
 
     void add(int fr, int to, ll l) { edges[top++].set(fr, to, l); }
 
-    ll kruskal(int v)
+    ll kruskal()
     {
-        for(int i = 0; i < v; ++i) u_set[i] = i;
+        for(int i = 0; i < V; ++i) u_set[i] = i;
         sort(edges, edges + top);
         ll ans = 0;
         int fr, to, x, y;
@@ -269,8 +295,8 @@ struct TOPOSORT : Graph
     void toposort()
     {
         queue<int> q;
-        // memset(dp, 0, sizeof(dp));
-        for(int i = 1; i <= v; ++i)
+        // fill(dp + 1, dp + V + 1, 0);
+        for(int i = 1; i <= V; ++i)
             if(!in[i]) q.push(i);
         int fr, to;
         while(!q.empty())
@@ -294,7 +320,7 @@ struct DINIC : Graph
     bool bfs(int start, int end)
     {
         queue<int> q;
-        memset(depth, -1, sizeof(depth)); // 一定要初始化bfs可能运行多次
+        fill(depth + 1, depth + V + 1, -1); // 一定要初始化bfs可能运行多次
         q.push(start);
         depth[start] = 0;
         int fr, to;
@@ -343,139 +369,125 @@ struct DINIC : Graph
 struct HUNGARIAN : Graph
 {
     int check[MAXV], match[MAXV], pre[MAXV];
-    int Hungarian(int n, int m)
-    {
-        int ans = 0;
-        memset(match, 0, sizeof(match));
-        for(int i = 1; i <= n; ++i)
-        {
-            if(!match[i])
-            {
-                memset(check, 0, sizeof(check));
-                if(dfs(i)) ++ans;
-            }
-        }
-        return ans;
-    }
-    int hungarian(int n, int m)
-    { //check保存bfs树的树根，pre保存该点的前一个同侧点，match保存匹配点
-        int ans = 0;
-        // memset(match, 0, sizeof(match)); // 这里多个样例要更新
-        // memset(check, 0, sizeof(check));
-        // memset(pre, 0, sizeof(pre));
-        for(int i = 1; i <= n; ++i)
-            if(!match[i])
-                if(bfs(i)) ans++;
-        return ans;
-    }
-    bool dfs(int fr)
-    { //dfs(fr)返回true表示从该点找下去可以找到一条增广路，也即找到一个点未被匹配
-        int to;
-        for(int i = head[fr]; ~i; i = edges[i].last)
-        {
-            to = edges[i].to;
-            if(!check[to])
-            {
-                check[to] = 1;
-                if(!match[to] || dfs(match[to]))
-                {
-                    match[fr] = to;
-                    match[to] = fr;
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+    // check->bfs的时间戳,match->匹配点,pre->bfs祖先
     bool bfs(int root)
     {
         queue<int> q;
-        while(!q.empty()) q.pop();
         q.push(root);
         pre[root] = 0;
-        bool flag = 0;
-        int fr, to;
-        while(!q.empty() && !flag)
+        int fr, to, t;
+        while(!q.empty())
         {
             fr = q.front(), q.pop();
             for(int i = head[fr]; ~i; i = edges[i].last)
             {
                 to = edges[i].to;
-                if(check[to] != root)
-                { //每次push的都是match[to]，所以只会加入与root同侧的点
+                if(check[to] != root) // 还没有bfs的点
+                {
+                    if(!match[to])
+                    { // 进行增广
+                        for(int t; fr && (t = match[fr], 1); fr = pre[fr], to = t)
+                            match[fr] = to, match[to] = fr;
+                        return 1;
+                    }
+                    pre[match[to]] = fr;
                     check[to] = root;
                     q.push(match[to]);
-                    if(match[to])
-                        pre[match[to]] = fr;
-                    else
-                    { //找到增广路径，进行调整
-                        flag = 1;
-                        while(fr)
-                        { //当前路径是pre[fr]->(match[fr]->fr)->to，将其调整为(pre[fr]->match[fr])->(fr->to)
-                            int t = match[fr];
-                            match[fr] = to, match[to] = fr;
-                            fr = pre[fr], to = t;
-                        }
-                    }
                 }
             }
         }
-        return match[root] != 0;
+        return 0;
+    }
+
+    int hungarian()
+    {
+        int ans = 0;
+        // fill(check + 1, check + V + 1, 0);
+        // fill(match + 1, match + V + 1, 0);
+        for(int i = 1; i <= V; ++i)
+            if(!match[i])
+                if(bfs(i)) ++ans;
+        return ans;
     }
 };
 
 /*================================================================================*/
 // tarjan算法
 // 复杂度O(V+E)
-struct Stack
+namespace S
 {
-    int data[MAXV], t;
-    void add(int x) { data[t++] = x; }
-    int top() { return data[t]; }
-} S;
+int data[MAXV], t;
+inline void push(int x) { data[t++] = x; }
+inline int top() { return data[t - 1]; }
+}
 
 struct TARJAN : Graph
 {
+    int dfn[MAXV], low[MAXV], dfs_num, sz[MAXV];
     bool ins[MAXV];
-    int low[MAXV], dfn[MAXV], dfs_num;
 
-    int tarjan()
-    { // 返回强连通分量数目
-        dfs_num = S.t = 0;
-        // memset(ins, 0, sizeof(ins));
-        memset(dfn, -1, sizeof(dfn));
-        int ans = 0;
-        for(int i = 1; i <= v; ++i)
-            if(dfn[i] == -1) ans += dfs(i);
-        return ans;
-    }
-
-    int dfs(int fr)
+    void dfs(int fr)
     {
-        low[fr] = dfn[fr] = ++dfs_num;
-        S.add(fr);
-        ins[fr] = 1;
-        int to, ans = 0;
-        for(int i = head[fr]; ~i; i = edges[i].last)
+        dfn[fr] = low[fr] = ++dfs_num;
+        ins[fr] = 1, S::push(fr);
+        for(int i = head[fr], to; ~i; i = edges[i].last)
         {
             to = edges[i].to;
-            if(dfn[to] == -1)
+            if(!dfn[to])
             {
-                ans += dfs(to);
-                low[fr] = min(low[to], low[fr]);
+                dfs(to);
+                low[fr] = min(low[fr], low[to]);
             } else if(ins[to])
-                low[fr] = min(dfn[to], low[fr]);
+                low[fr] = min(low[fr], dfn[to]);
         }
         if(dfn[fr] == low[fr])
         {
-            ++ans;
-            while(S.top() != fr)
+            sz[dfn[fr]] = 1;
+            while(S::top() != fr)
             {
-                --S.t;
-                ins[S.top()] = 0;
+                ++sz[dfn[fr]];
+                low[S::top()] = dfn[fr];
+                ins[S::top()] = 0;
+                --S::t;
             }
+            ins[fr] = 0;
+            --S::t;
         }
-        return ans;
+    }
+
+    void tarjan()
+    {
+        // fill(dfn + 1, dfn + 1 + V, 0);
+        // fill(ins + 1, ins + 1 + V, 0);
+        dfs_num = S::t = 0;
+        for(int i = 1; i <= V; ++i)
+            if(!dfn[i]) dfs(i);
+    }
+
+    int times[MAXV], head2[MAXV], in[MAXV];
+
+    void shrink()
+    { // 直接在原图上缩点成DAG并去重边,需要两个辅助数组times和head2,in用来保存DAG的入度
+        tarjan();
+        fill(head2 + 1, head2 + 1 + V, -1);
+        // fill(in + 1, in + 1 + V, 0);
+        for(int fr = 1, i, j; fr <= V; ++fr) // 缩点
+            for(i = head[fr]; ~i && (j = edges[i].last, 1); i = j)
+                if(low[edges[i].to] != low[fr])
+                {
+                    edges[i].set(low[edges[i].to], head2[low[fr]], edges[i].l);
+                    head2[low[fr]] = i;
+                }
+        // fill(times + 1, times + 1 + V, 0);
+        for(int fr = 1, to, i, j; fr <= V; ++fr) // 去重
+            for(i = head2[fr], head[fr] = -1; ~i && (j = edges[i].last, 1); i = j)
+                if(times[to = edges[i].to] != fr)
+                {
+                    times[to] = fr;
+                    edges[i].set(to, head[fr], edges[i].l);
+                    head[fr] = i;
+                    ++in[to];
+                }
     }
 };
 

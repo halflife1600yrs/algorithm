@@ -35,18 +35,14 @@ namespace G
     int head2[MAXV];
     void rev()
     {
-        for(int i=1;i<=v;++i) head2[i]=-1;
-        for(int i=1,to,cur,last;i<=v;++i)
+        fill(head2 + 1, head2 + v + 1, -1);
+        for(int fr=1,to;fr<=v;++fr)
         {
-            last=head[i],cur=last;
-            while(~last)
+            for(int i=head[fr],j;~i&&(j=es[i].last,1);i=j)
             {
-                cur=es[cur].last;
-                to=es[last].to;
-                es[last].to=i;
-                es[last].last=head2[to];
-                head2[to]=last;
-                last=cur;
+                to=es[i].to;
+                es[i].set(fr,head2[to]);
+                head2[to]=i;
             }
         }
         for(int i=1;i<=v;++i) head[i]=head2[i];

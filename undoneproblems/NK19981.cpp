@@ -1,108 +1,122 @@
 #include <bits/stdc++.h>
 
-#define DEBUG
-#define debug1(x) std::cout << #x " = " << (x) << std::endl
-#define debug2(x, y) std::cout << #x " = " << (x) << " ," #y " = " << (y) << std::endl
-#define disp(arry, fr, to) \
-    { \
-        std::cout << #arry " : "; \
-        for(int _i = fr; _i < to; _i++) std::cout << arry[_i] << " "; \
-        std::cout << std::endl; \
-    }
-
 using namespace std;
 
-const int MAXN=105;
-int fa[MAXN],sz[MAXN],val[MAXN];
-int low[MAXN],dfn[MAXN],dp[2][MAXN*1000];
-bool ins[MAXN];
-int n,m;
+const int MAXV=105,MAXE=605;
+int V,E;
+int pack,val[MAXV],cost[MAXV];
 
-inline int get_fa(int x)
+namespace S
 {
-    if(low[fa[x]]==dfn[fa[x]]) return fa[x];
-    return fa[x]=fa[fa[x]];
+int data[MAXV], t;
+inline void push(int x) { data[t++] = x; }
+inline int top() { return data[t - 1]; }
 }
 
-struct Sta
+namespace G
 {
-    int data[MAXN],t;
-    void add(int x) { data[t++]=x; }
-    int top() { return data[t-1]; }
-} s;
-int dfs_num;
-void dfs(int cur)
-{
-    // debug1(cur);
-    low[cur]=dfn[cur]=dfs_num++;
-    ins[cur]=1,s.add(cur);
-    if(fa[cur])
+    struct Edge
     {
-        if(dfn[fa[cur]]==-1)
-        {
-            dfs(fa[cur]);
-            low[cur]=low[fa[cur]];
-        } else if(ins[fa[cur]])
-            low[cur]=low[fa[cur]];
+        int to, last;
+        void set(int _to, int _last) { to = _to, last = _last; }
+    } edges[MAXE]; // 边记得开两倍!!!
+
+    int top, head[MAXV];
+
+    void init() { top = 0, fill(head, head + V + 1, -1); }
+
+    void add(int fr, int to)
+    {
+        edges[top].set(to, head[fr]);
+        head[fr] = top++;
     }
-    if(low[cur]==dfn[cur])
+
+    int dfn[MAXV], low[MAXV], fa[MAXV], dfs_num;
+    bool ins[MAXV];
+
+    void tarjan(int fr)
     {
-        // debug1(cur);
-        while(s.top()!=cur)
+        dfn[fr] = low[fr] = ++dfs_num;
+        ins[fr] = 1, S::push(fr);
+        for(int i = head[fr], to; ~i; i = edges[i].last)
         {
-            val[cur]+=val[s.top()];
-            sz[cur]+=sz[s.top()];
-            ins[s.top()]=0;
-            fa[s.top()]=cur;
-            --s.t;
+            to = edges[i].to;
+            if(!dfn[to])
+            {
+                tarjan(to);
+                low[fr] = min(low[fr], low[to]);
+            } else if(ins[to])
+                low[fr] = min(low[fr], dfn[to]);
         }
-        --s.t;
-        ins[cur]=0;
-        fa[cur]=0;
-        // debug2(sz[cur],val[cur]);
+        if(dfn[fr] == low[fr])
+        {
+            int t;
+            while(S::top() != fr)
+            {
+                t=S::top();
+                low[t] = dfn[fr];
+                fa[t]=fr;
+                val[fr]+=val[t],cost[fr]+=val[t];
+                val[t]=cost[t]=-1;
+                ins[t] = 0;
+                --S::t;
+            }
+            ins[fr] = 0;
+            --S::t;
+        }
     }
-}
-void tarjan()
-{
-    dfs_num=s.t=0;
-    memset(dfn,-1,sizeof(dfn));
-    memset(low,-1,sizeof(low));
-    for(int i=1;i<=n;++i)
-        if(dfn[i]==-1) dfs(i);
+
+    int times[MAXV], head2[MAXV], in[MAXV];
+
+    void shrink()
+    { // 直接在原图上缩点成DAG并去重边,需要两个辅助数组times和head2,in用来保存DAG的入度
+        // fill(dfn + 1, dfn + 1 + V, 0);
+        // fill(ins + 1, ins + 1 + V, 0);
+        dfs_num = S::t = 0;
+        for(int i = 1; i <= V; ++i)
+            if(!dfn[i]) tarjan(i);
+        fill(head2 + 1, head2 + 1 + V, -1);
+        // fill(in + 1, in + 1 + V, 0);
+        for(int fr = 1, i, j; fr <= V; ++fr) // 缩点
+            for(i = head[fr]; ~i && (j = edges[i].last, 1); i = j)
+                if(fa[edges[i].to] != fa[fr])
+                {
+                    edges[i].set(fa[edges[i].to], head2[fa[fr]]);
+                    head2[fa[fr]] = i;
+                }
+        // fill(times + 1, times + 1 + V, 0);
+        for(int fr = 1, to, i, j; fr <= V; ++fr) // 去重
+            for(i = head2[fr], head[fr] = -1; ~i && (j = edges[i].last, 1); i = j)
+                if(times[to = edges[i].to] != fr)
+                {
+                    times[to] = fr;
+                    edges[i].set(to, head[fr]);
+                    head[fr] = i;
+                    ++in[to];
+                }
+        for(int i=1;i<=V;++i)
+            if(!in[i]&&cost[i]>=0) add(0,i);
+    }
+
+    void dfs()
+    {
+
+    }
 }
 
 int main()
 {
-    scanf("%d %d",&n,&m);
-    for(int i=1;i<=n;++i) scanf("%d",&sz[i]);
-    for(int i=1;i<=n;++i) scanf("%d",&val[i]);
-    for(int i=1;i<=n;++i) scanf("%d",&fa[i]);
-    tarjan();
-    bool pos=0;
-    int sum=0,maxi=0;
-    memset(dp,0x7f,sizeof(dp));
-    for(int i=1;i<=n;++i)
+    scanf("%d %d",&V,&pack);
+    for(int i=1;i<=V;++i) scanf("%d",&cost[i]);
+    for(int i=1;i<=V;++i) scanf("%d",&val[i]);
+    G::init();
+    for(int i=1,fa;i<=V;++i)
     {
-        if(sz[i]<=m&&low[i]==dfn[i])
-        {
-            // debug2(low[i],dfn[i]);
-            dp[pos][val[i]]=min(dp[!pos][val[i]],sz[i]);
-            for(int j=1;j<=sum;++j)
-            {
-                if(dp[!pos][j]+sz[i]<=m)
-                {
-                    dp[pos][j+val[i]]=min(dp[!pos][j+val[i]],dp[!pos][j]+sz[i]);
-                    if(j+val[i]>maxi) maxi=j+val[i];
-                }
-            }
-            sum+=val[i];
-            pos=!pos;
-        }
+        scanf("%d",&fa);
+        if(fa) G::add(fa,i);
     }
-    printf("%d\n",maxi);
     return 0;
 }
-
 /*=======================================
 added at 2019.Jun04 21:26:12	problem:NK19981
 5 10

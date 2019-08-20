@@ -30,7 +30,7 @@ struct G
     bool vis[MAXV];
 
     bool spfa()
-    {                                   // 这里的初始化不能删因为多次调用
+    { // 这里的初始化不能删因为多次调用
         memset(dis, 0x7f, sizeof(dis)); // 最大费用的时候下面要改>号,这里要用0x80初始化为负值
         memset(vis, 0, sizeof(vis));
         memset(minf, 0x7f, sizeof(minf));
@@ -38,20 +38,20 @@ struct G
         q.push(start);
         dis[start] = 0, vis[start] = 1;
         int fr, to;
-        while (!q.empty())
+        while(!q.empty())
         {
             fr = q.front(), q.pop();
             vis[fr] = 0;
-            for (int i = head[fr]; ~i; i = edges[i].last)
+            for(int i = head[fr]; ~i; i = edges[i].last)
             {
                 to = edges[i].to;
-                if (edges[i].c > 0 && dis[fr] + edges[i].l < dis[to])
+                if(edges[i].c > 0 && dis[fr] + edges[i].l < dis[to])
                 {
                     dis[to] = dis[fr] + edges[i].l;
                     minf[to] = min(minf[fr], edges[i].c);
                     prev[to] = fr;
                     pree[to] = i;
-                    if (!vis[to])
+                    if(!vis[to])
                         q.push(to), vis[to] = 1;
                 }
             }
@@ -62,7 +62,7 @@ struct G
     void dfs()
     {
         int cur = end, i, tmp = minf[end];
-        while (cur != start)
+        while(cur != start)
         {
             i = pree[cur];
             edges[i].c -= tmp;
@@ -76,8 +76,7 @@ struct G
     void mcf()
     {
         ans = cost = 0;
-        while (spfa())
-            dfs();
+        while(spfa()) dfs();
     }
 } G;
 
@@ -85,7 +84,7 @@ int main()
 {
     scanf("%d %d %d %d", &v, &e, &G.start, &G.end);
     G.init();
-    for (int i = 0, fr, to, c, l; i < e; ++i)
+    for(int i = 0, fr, to, c, l; i < e; ++i)
     {
         scanf("%d %d %d %d", &fr, &to, &c, &l);
         G.add(fr, to, l, c);
