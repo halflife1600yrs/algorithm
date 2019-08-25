@@ -1,16 +1,16 @@
 $root = ".\.exes"
 
 $file1 = ".\test.cpp"
-$file2 = ".\undoneproblems\team1\I.cpp"
+$file2 = ".\undoneproblems\CF976E.cpp"
 
 $filebase1 = (Get-Item $file1).BaseName
 $filebase2 = (Get-Item $file2).BaseName
 
 # g++.exe $file1 -o "$root\$filebase1"
-# g++.exe $file2 -o "$root\$filebase2"
+g++.exe $file2 -o "$root\$filebase2"
 
 # Get-Content -Path .\.in -Raw | & $root\$filebase1 > .\1.out
-# Get-Content -Path .\.in -Raw | & $root\$filebase2 > .\2.out
+Get-Content -Path .\.in -Raw | & $root\$filebase2 > .\2.out
 
 $str1 = Get-Content .\1.out
 $str2 = Get-Content .\2.out

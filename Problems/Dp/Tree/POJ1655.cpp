@@ -5,9 +5,10 @@
 
 using namespace std;
 
+typedef pair<int,int> pii;
 const int MAXN=2e4+5,INF=0x7f7f7f7f;
 int dp[MAXN][2]; // dp[i][1]以改节点为根的子树大小,dp[i][0]该节点的所有子树大小
-int v,heart,mini;
+int v;
 namespace T
 {
     int top,head[MAXN];
@@ -22,21 +23,31 @@ namespace T
         edges[top].set(to,head[fr]);
         head[fr]=top++;
     }
-    void dfs1(int fr,int fa)
+    pii get_heart(int root)
     {
-        int to;
-        dp[fr][0]=1;
-        for(int i=head[fr];~i;i=edges[i].last)
+        memset(dp,0,sizeof(dp));
+        struct DFS
         {
-            to=edges[i].to;
-            if(to==fa) continue;
-            dfs1(to,fr);
-            dp[fr][0]+=dp[to][0];
-            dp[fr][1]=max(dp[fr][1],dp[to][0]);
-        }
-        int tmp=max(dp[fr][1],v-dp[fr][0]);
-        if(tmp<mini) mini=tmp,heart=fr;
-        else if(tmp==mini) heart=min(heart,fr);
+            int heart,mini;
+            void operator()(int fr,int fa)
+            {
+                int to;
+                dp[fr][0]=1;
+                for(int i=head[fr];~i;i=edges[i].last)
+                {
+                    to=edges[i].to;
+                    if(to==fa) continue;
+                    (*this)(to,fr);
+                    dp[fr][0]+=dp[to][0];
+                    dp[fr][1]=max(dp[fr][1],dp[to][0]);
+                }
+                int tmp=max(dp[fr][1],v-dp[fr][0]);
+                if(tmp<mini) mini=tmp,heart=fr;
+                else if(tmp==mini) heart=min(heart,fr);
+            }
+        } dfs;
+        dfs.mini=INF,dfs(root,-1);
+        return pii(dfs.heart,dfs.mini);
     }
 }
 
@@ -53,10 +64,8 @@ int main()
             scanf("%d %d",&fr,&to);
             T::add(fr,to),T::add(to,fr);
         }
-        mini=INF;
-        memset(dp,0,sizeof(dp));
-        T::dfs1(1,1);
-        printf("%d %d\n",heart,mini);
+        pii ans=T::get_heart(1);
+        printf("%d %d\n",ans.first,ans.second);
     }
     return 0;
 }
@@ -64,4 +73,8 @@ int main()
 /*==================================================================
 added at 2019-08-15 21:53:20 POJ1655
 求树的重心水题
+==================================================================*/
+/*==================================================================
+added at 2019-08-25 10:32:32 POJ1655
+改成了很骚的套结构体的写法
 ==================================================================*/

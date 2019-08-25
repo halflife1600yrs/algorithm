@@ -102,7 +102,7 @@ namespace T
             to=es[i].to;
             if(vis[to]||sz[0][to]<=1) continue;
             get_heart(to,fr,mini=sz[0][to]); // 记得更新mini
-            divide(to); // 2.找到每个子树的重心然后分治
+            divide(heart); // 2.找到每个子树的重心然后分治
         }
     }
 }

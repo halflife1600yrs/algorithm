@@ -14,14 +14,14 @@ struct Graph
     {
         int to, last;
         ll l;
-        void set(int _to, int _last, ll _l) { to = _to, last = _last, l = _l; }
+        void set(int _to, int _last, ll _l = 0) { to = _to, last = _last, l = _l; }
     } edges[MAXE]; // 边记得开两倍!!!
 
     int top, head[MAXV];
 
     void init() { top = 0, fill(head + 1, head + V + 1, -1); }
 
-    void add(int fr, int to, ll l)
+    void add(int fr, int to, ll l = 0)
     {
         edges[top].set(to, head[fr], l);
         head[fr] = top++;
@@ -65,12 +65,8 @@ struct Graph
 /*================================================================================*/
 // 迪杰斯特拉算法
 // 复杂度O((V+E)lgV)
-typedef pair<int, ll> pii;
-struct cmp
-{
-    bool operator()(const pii& a, const pii& b) { return a.second > b.second; }
-};
-
+typedef pair<ll, int> pii;
+// 似乎用pair自带的比较符号会比自己重载慢一点点
 struct DIJKSTRA : Graph
 {
     ll dis[MAXV];
@@ -80,13 +76,13 @@ struct DIJKSTRA : Graph
     {
         fill(dis + 1, dis + V + 1, INF);
         // fill(vis + 1, vis + V + 1, 0);
-        priority_queue<pii, vector<pii>, cmp> q;
+        priority_queue<pii, vector<pii>, greater<pii>> q;
         dis[start] = 0;
-        q.push(pii(start, 0));
+        q.push(pii(0, start));
         int fr, to;
         while(!q.empty())
         {
-            fr = q.top().first, q.pop();
+            fr = q.top().second, q.pop();
             if(vis[fr]) continue; // fr可能多次入队,但第一次出队时就已经更新完成
             vis[fr] = 1;
             for(int i = head[fr]; ~i; i = edges[i].last)
@@ -94,10 +90,7 @@ struct DIJKSTRA : Graph
                 to = edges[i].to;
                 if(vis[to]) continue;
                 ll d = dis[fr] + edges[i].l;
-                // 这里也可以用来处理最小路径上的最大边或最大路径上的最小边
-                // 求最小路径上最大边时,优先队列cmp不变,上句改为d=max(dis[fr],edges[i].l)
-                // 同时下一句应该改为d更大时更新
-                if(d < dis[to]) dis[to] = d, q.push(pii(to, d));
+                if(d < dis[to]) dis[to] = d, q.push(pii(d, to));
             }
         }
     }
@@ -162,7 +155,7 @@ struct LCA : Graph
         while(!q.empty())
         { //标准bfs过程
             fr = q.front(), q.pop();
-            for(int i = head[fr]; i != -1; i = edges[i].last)
+            for(int i = head[fr]; ~i; i = edges[i].last)
             {
                 to = edges[i].to;
                 if(to == fa[fr][0]) continue;
@@ -175,7 +168,7 @@ struct LCA : Graph
         }
     }
 
-    int query(int a, int b)
+    int lca(int a, int b)
     { // 注意用于处理两点路径信息的时候,都先更新再上跳
         if(depth[a] < depth[b]) swap(a, b);
         for(int i = DEP - 1; i >= 0; --i) //先抬到同一层
@@ -189,6 +182,52 @@ struct LCA : Graph
     }
 };
 
+/*================================================================================*/
+// 建立虚树
+
+vector<int> query;
+int dfn[MAXV];
+struct FAKETREE : LCA
+{
+    int S[MAXV], dfs_num;
+
+    void dfs1(int fr)
+    { // dfs方法
+        // dfn[fr]=++dfs_num;
+        for(int i = 1; (1 << i) <= depth[fr]; ++i)
+            fa[fr][i] = fa[fa[fr][i - 1]][i - 1];
+        for(int i = head[fr], to; ~i; i = edges[i].last)
+        {
+            to = edges[i].to;
+            if(to == fa[fr][0]) continue;
+            fa[to][0] = fr;
+            depth[to] = depth[fr] + 1;
+            dfs1(to);
+        }
+    }
+
+    void build_fake_tree()
+    {
+        sort(query.begin(), query.end(), // dfn要在dfs求lca的同时处理好
+            [](int a, int b) { return dfn[a] < dfn[b]; });
+        int t = top = 0, father; // 建虚树之后就会清除原图上的边
+        S[++t] = 1, head[1] = -1;
+        for(int fr : query)
+        {
+            if(fr == 1) continue; // 根节点
+            if((father = lca(S[t], fr)) != S[t])
+            {
+                while(dfn[S[t - 1]] > dfn[father]) add(S[t - 1], S[t]), --t; // 出栈并加边
+                if(father != S[t - 1])
+                    head[father] = -1, add(father, S[t]), S[t] = father;
+                else
+                    add(S[t - 1], S[t]), --t;
+            }
+            head[fr] = -1, S[++t] = fr;
+        }
+        while(t > 1) add(S[t - 1], S[t]), --t;
+    }
+};
 
 /*================================================================================*/
 // Prim
@@ -493,5 +532,13 @@ struct TARJAN : Graph
 
 int main()
 {
+    scanf("%d", &V);
+    int fr, to;
+    // G::init();
+    for(int i = 1; i < V; ++i)
+    {
+        scanf("%d %d", &fr, &to);
+        // G::add(fr, to), G::add(to, fr);
+    }
     return 0;
 }
