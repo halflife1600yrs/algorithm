@@ -3,21 +3,21 @@
 using namespace std;
 
 typedef long long ll;
-const int maxn=1e6+7,mode=1e9+7;
+const int MAXN=1e6+7,MODE=1e9+7;
 int n,k;
-char str[maxn];
+char str[MAXN];
 vector<int> ans;
 
 namespace s
 {
-    int data[maxn],t;
+    int data[MAXN],t;
     void push(int x) { data[t++]=x; }
     int pop() { return data[--t]; }
 }
 
 namespace trie
 {
-    int tree[maxn][26],tot=0,dfn[maxn],tpos[maxn];
+    int tree[MAXN][26],tot=0,dfn[MAXN],tpos[MAXN];
     int dfs_num=0;
     void build(int now)
     {
@@ -74,18 +74,13 @@ namespace trie
 
 namespace T
 {
-    int c[maxn];
-    int lowbit(int x)
-    {
-        return x&-x;
-    }
-
+    int c[MAXN];
+    int lowbit(int x) { return x&-x; }
     void add(int pos)
     {
         for(;pos<=n;pos+=lowbit(pos))
             c[pos]++;
     }
-
     int findsum(int pos)
     {
         int ans=0;
@@ -100,14 +95,14 @@ ll quick_pow(ll base,ll ind)
     ll ans=1;
     while(ind)
     {
-        if(ind&1) ans=ans*base%mode;
-        (base*=base)%=mode;
+        if(ind&1) ans=ans*base%MODE;
+        (base*=base)%=MODE;
         ind>>=1;
     }
     return ans;
 }
 
-ll multi[maxn];
+ll multi[MAXN];
 
 void init()
 {
@@ -118,8 +113,8 @@ void init()
 }
 
 int main(){
-    for(int i=multi[0]=1;i<maxn;++i)
-        multi[i]=multi[i-1]*i%mode;
+    for(int i=multi[0]=1;i<MAXN;++i)
+        multi[i]=multi[i-1]*i%MODE;
     while(~scanf("%d %d",&n,&k))
     {
         init();
@@ -135,11 +130,11 @@ int main(){
         for(int i=0;i<ans.size();++i)
         {
             int used=T::findsum(ans[i]-1);
-            sum+=(ans[i]-1-used)*(multi[n-i-1]*quick_pow(multi[n-k],mode-2)%mode)%mode;
-            sum%=mode;
+            sum+=(ans[i]-1-used)*multi[n-i-1]%MODE*quick_pow(multi[n-k],MODE-2)%MODE;
+            sum%=MODE;
             T::add(ans[i]);
         }
-        printf("%lld\n",(sum+1)%mode);
+        printf("%lld\n",(sum+1)%MODE);
     }
 }
 
@@ -147,5 +142,5 @@ int main(){
 added at 2019-08-22 20:17:24 JSKA1873
 使用trie统计字符串字典序大小
 +
-使用树状数组求给定全排列求字典序大小
+使用树状数组求给定全排列字典序大小
 ==================================================================*/

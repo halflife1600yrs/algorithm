@@ -42,7 +42,7 @@ void add(int fr, int to, int l = 0)
 
 int sz[2][MAXV], mini, heart; // sz[0]是包含该点为根的子树大小,sz[1]是该点最大的子树
 bool vis[MAXV]; // vis标记有没有被选为根节点
-int get_heart(int fr, int fa, int sum)
+int get_heart(int fr, int fa, const int& sum)
 {
     sz[0][fr] = 1, sz[1][fr] = 0;
     for(int i = head[fr], to; ~i; i = edges[i].last)
