@@ -108,8 +108,8 @@ struct SPFA : Graph
     bool spfa()
     {
         fill(dis + 1, dis + V + 1, INF);
-        // fill(vis + 1, vis + V + 1, INF);
-        // fill(cnt + 1, cnt + V + 1, INF);
+        // fill(vis + 1, vis + V + 1, 0);
+        // fill(cnt + 1, cnt + V + 1, 0);
         queue<int> q;
         dis[1] = 0;
         q.push(1);
