@@ -34,7 +34,6 @@ namespace G
         es[top].set(to, head[fr]);
         head[fr] = top++;
     }
-
     int dis[MAXV],son[MAXV],maxi; // 总的儿子数量,答案正确的儿子数量
     void bfs(int st)
     {
