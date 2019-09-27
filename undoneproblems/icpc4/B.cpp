@@ -16,20 +16,15 @@ namespace G
         ll l;
         void set(int _to, int _last, ll _l = 0) { to = _to, last = _last, l = _l; }
     } edges[MAXE]; // 边记得开两倍!!!
-
     int top, head[MAXV];
-
     void init() { top = 0, fill(head + 1, head + V + 1, -1); }
-
     void add(int fr, int to, ll l = 0)
     {
         edges[top].set(to, head[fr], l);
         head[fr] = top++;
     }
-
     ll dis[MAXV];
     bool vis[MAXV];
-
     ll dijkstra(int start)
     {
         fill(dis + 1, dis + V + 1, INF);

@@ -1,11 +1,21 @@
-### 矩阵乘法快速幂
+#include <bits/stdc++.h>
 
-```c++
+using namespace std;
+
+typedef long long ll;
+const int MODE = 998244353;
+
+inline int add(int a, int b)
+{
+    return (a += b) >= MODE ? a - MODE : a;
+}
+
 struct Mat
 {
     int lin, col;
     ll** a;
-    Mat(int l = 0, int c = 0) : lin(l), col(c)
+    Mat(int l = 0, int c = 0)
+        : lin(l), col(c)
     {
         a = new ll*[lin];
         for(int i = 0; i < lin; ++i) a[i] = new ll[col]();
@@ -36,7 +46,7 @@ struct Mat
         for(int i = 0; i < lin; ++i)
             for(int j = 0; j < x.col; ++j)
                 for(int k = 0; k < col; ++k)
-                    ans[i][j] = add(ans[i][j], a[i][k] * x[k][j] % mod);
+                    ans[i][j] = add(ans[i][j], a[i][k] * x[k][j] % MODE);
         return ans;
     }
     Mat& operator*=(const Mat& x) { return *this = *this * x; }
@@ -54,4 +64,13 @@ struct Mat
             for(int j = 0; j < col; ++j) printf("%d ", a[i][j]);
     }
 };
-```
+
+int main()
+{
+    ll n;
+    Mat A(4, 4);
+    A[0][0] = A[0][1] = A[1][0] = A[2][0] = A[2][2] = A[2][3] = A[3][2] = 1;
+    while(~scanf("%lld", &n))
+        printf("%d\n", n ? (A ^ (n - 1))[2][0] : 0);
+    return 0;
+}

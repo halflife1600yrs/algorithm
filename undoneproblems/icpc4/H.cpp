@@ -47,7 +47,7 @@ int main()
     // freopen(".out", "w", stdout);
     ll Q,n;
     scanf("%lld %lld",&Q,&n);
-    // Q=min(500000ll,Q);
+    Q=min(500000ll,Q);
     pows[0][0][0]=3,pows[0][0][1]=2,pows[0][1][0]=1;
     for(int i=1;i<62;++i) pows[i]=pows[i-1]*pows[i-1];
     ll pref=0;
