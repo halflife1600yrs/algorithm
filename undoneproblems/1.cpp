@@ -6,9 +6,8 @@ int land[60][60];
 
 int main()
 {
-    freopen(".in", "r", stdin);
-    freopen(".out", "w", stdout);
-    int n,k;
-    printf("111");
+    int a=1;
+    cout<<(a=2,3)<<endl;
+    cout<<a;
     return 0;
 }
