@@ -1,9 +1,3 @@
 *.exe
-.data
-.diary
-*.in
-*.out
 .vscode
-/*.cpp
-.exes/
 .clang-format
