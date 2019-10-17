@@ -5,7 +5,6 @@ using namespace std;
 typedef int ll;
 const int MAXN = 1e5 + 5;
 
-
 namespace SplayTree
 {
 struct Node

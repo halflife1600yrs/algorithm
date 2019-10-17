@@ -1,13 +1,4 @@
 #include <bits/stdc++.h>
-#define DEBUG
-#define debug1(x) std::cout << #x " = " << (x) << std::endl
-#define debug2(x, y) std::cout << #x " = " << (x) << " ," #y " = " << (y) << std::endl
-#define disp(arry, fr, to)                                            \
-    {                                                                 \
-        std::cout << #arry " : ";                                     \
-        for(int _i = fr; _i < to; _i++) std::cout << arry[_i] << " "; \
-        std::cout << std::endl;                                       \
-    }
 
 using namespace std;
 
