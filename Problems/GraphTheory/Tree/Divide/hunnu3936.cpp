@@ -20,14 +20,14 @@ namespace T
     }
     int sz[2][MAXV], mini, heart; // sz[0]是包含该点为根的子树大小,sz[1]是该点最大的子树
     bool vis[MAXV]; // vis标记有没有被选为根节点
-    int get_heart(int fr, int fa, const int sum)
+    int get_heart(int fr, int fa, const int& sum)
     {
         sz[0][fr] = 1, sz[1][fr] = 0;
         for(int i = head[fr], to; ~i; i = edges[i].last)
         {
             to = edges[i].to;
             if(vis[to] || to == fa) continue;
-            get_heart(to, fr, sum);
+            get_heart(to, fr, int(sum));
             sz[0][fr] += sz[0][to];
             sz[1][fr] = max(sz[1][fr], sz[0][to]);
         }
@@ -71,7 +71,7 @@ namespace T
         {
             to = edges[i].to;
             if(vis[to] || sz[0][to] <= 1) continue;
-            divide(get_heart(to, -1, mini = sz[0][to]));
+            divide(get_heart(to, -1, int(mini = sz[0][to])));
         }
     }
 }
@@ -89,7 +89,7 @@ int main()
         }
         ans=0;
         fill(T::vis,T::vis+V+1,0);
-        T::divide(T::get_heart(1,-1,T::mini=V));
+        T::divide(T::get_heart(1,-1,int(T::mini=V)));
         printf("%d\n",ans);
     }
     return 0;

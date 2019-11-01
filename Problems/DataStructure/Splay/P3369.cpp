@@ -5,17 +5,22 @@ using namespace std;
 typedef int ll;
 const int MAXN = 1e5 + 5;
 
-namespace SplayTree
-{
 struct Node
 {
     ll v;
     int cnt, size;
     int fa, son[2];
     Node(ll v = 0, int cnt = 1, int fa = -1) // 父节点为-1代表节点为root
-        : v(v), cnt(cnt), size(1), fa(fa) { son[0] = son[1] = -1; }
+        : v(v), cnt(cnt), size(1), fa(fa)
+    {
+        son[0] = son[1] = -1;
+    }
     int& operator[](bool x) { return son[x]; }
-} ns[MAXN];
+};
+
+namespace SplayTree
+{
+Node ns[MAXN];
 int top, size, root; // size保存节点数
 inline bool isrson(int id) { return id == ns[ns[id].fa].son[1]; }
 void update(int id)
@@ -53,6 +58,12 @@ int pre()
     while(~ns[id][1]) id = ns[id][1];
     return id;
 }
+int nxt()
+{ // 要求右子节点存在
+    int id = ns[root][1];
+    while(~ns[id][0]) id = ns[id][0];
+    return id;
+}
 void insert(ll v, int k = 1)
 {
     if(!size) // 空树
@@ -87,13 +98,6 @@ void del(ll v, int k = 0x7FFFFFFF)
         --size;
     }
 }
-//=======================================================
-int nxt()
-{ // 要求右子节点存在
-    int id = ns[root][1];
-    while(~ns[id][0]) id = ns[id][0];
-    return id;
-}
 int rankof(ll v)
 {
     IDof(v);
@@ -122,7 +126,6 @@ ll upper_bound(ll v, bool cmp = 1)
     return ns[cmp ? pre() : nxt()].v;
 }
 }
-
 int main()
 {
     int n;
