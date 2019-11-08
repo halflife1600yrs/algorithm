@@ -24,8 +24,6 @@ inline t read()
 
 int main()
 {
-    // freopen(".in", "r", stdin);
-    // freopen(".out", "w", stdout);
     int n=read<int>(),m=read<int>(),k=read<int>();
     for(int i=0;i<n;++i) x[i]=read<int>();
     for(int i=0;i<=m;++i) g[i]=read<int>();
@@ -45,7 +43,6 @@ int main()
         power*=k;
         if(power>=MODE) power%=MODE;
     }
-    // debug2(ans1,ans2);
     printf("%lld\n",(ans1+ans2)%MODE);
     return 0;
 }
